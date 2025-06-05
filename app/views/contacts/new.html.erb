@@ -1,0 +1,43 @@
+<div class="contact-container">
+  <div class="contact-content">
+    <h1 class="contact-title">Contact Us</h1>
+    <p class="contact-subtitle">We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+
+    <%= form_with(model: @contact, local: true, class: "contact-form") do |f| %>
+      <% if @contact.errors.any? %>
+        <div class="error-messages">
+          <h2><%= pluralize(@contact.errors.count, "error") %> prohibited this message from being sent:</h2>
+          <ul>
+            <% @contact.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="form-group">
+        <%= f.label :name, "Your Name" %>
+        <%= f.text_field :name, class: "form-control", placeholder: "Enter your name" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :email, "Your Email" %>
+        <%= f.email_field :email, class: "form-control", placeholder: "Enter your email" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :subject, "Subject" %>
+        <%= f.text_field :subject, class: "form-control", placeholder: "Enter message subject" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :message, "Your Message" %>
+        <%= f.text_area :message, class: "form-control", rows: 6, placeholder: "Enter your message" %>
+      </div>
+
+      <div class="form-actions">
+        <%= f.submit "Send Message", class: "submit-button" %>
+      </div>
+    <% end %>
+  </div>
+</div>

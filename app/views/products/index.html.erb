@@ -1,0 +1,25 @@
+<%# app/views/products/index.html.erb %>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Products</h1>
+    <%= link_to 'New Product', new_product_path, class: 'btn btn-primary' %>
+  </div>
+
+  <div class="product-card-grid">
+    <% @products.each do |product| %>
+      <div class="product-card">
+        <div class="product-card-img-wrapper">
+          <% if product.image.attached? %>
+            <%= image_tag product.image, class: 'product-card-img' %>
+          <% else %>
+            <div class="product-card-img product-card-img-placeholder"></div>
+          <% end %>
+        </div>
+        <div class="product-card-footer">
+          <span class="product-card-title"><%= product.name %></span>
+          <%= link_to '>', product_path(product), class: 'product-card-btn' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div> 

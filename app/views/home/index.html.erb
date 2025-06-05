@@ -1,3 +1,18 @@
 <!-- app/views/home/index.html.erb -->
 
-<h1>Welcome to GCPrecision!</h1>
+<div class="css-slideshow-container">
+  <% @products.each_with_index do |product, idx| %>
+    <div class="css-slide">
+      <% if product.image_url.present? %>
+        <%= image_tag product.image_url, class: "css-slide-img", alt: product.name %>
+      <% else %>
+        <%= image_tag "placeholder.png", class: "css-slide-img", alt: "No image" %>
+      <% end %>
+      <div class="css-slide-caption">
+        <h5><%= product.name %></h5>
+        <p><%= product.description %></p>
+        <%= link_to "View Details", product_path(product), class: "btn css-slide-btn" %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,123 @@
+/* ==========================
+   2.1 Container & Slide Basics
+   ========================== */
+
+.css-slideshow-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;       /* or whatever max-width you prefer */
+  height: 400px;          /* fix to the height you want for all slides */
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.css-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;             /* start hidden */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+  /* box-shadow, border-radius, etc., if needed */
+  transition: opacity 1s ease-in-out;
+}
+
+/* Make sure all images fill the slide and keep aspect-ratio */
+.css-slide-img {
+  width: 100%;
+  height: 60%;            /* adjust (e.g., 60%) so the caption can sit below */
+  object-fit: cover;
+  display: block;
+}
+
+/* Caption area under the image */
+.css-slide-caption {
+  padding: 10px;
+  text-align: center;
+  background: rgba(255,255,255,0.9);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* A button style inside each slide (optional) */
+.css-slide-btn {
+  margin-top: 10px;
+  background-color: #007bff;
+  color: #fff;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+/* Hover effect on slide card (slight lift) */
+.css-slide:hover {
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  transform: translateY(-4px);
+}
+
+/* ==========================
+   2.2 Keyframes for Fade Animation
+   ========================== */
+
+/* 
+  We assume 4 slides. Total cycle = 16s (for example). 
+  Each slide fades in, stays fully visible for 3s, then fades out.
+  Adjust these percentages if you have a different number of slides
+  or want a different timing. 
+*/
+@keyframes fadeSlides {
+  0%   { opacity: 1; }   /* Slide #1 is visible at start */
+  20%  { opacity: 1; }   /* Slide #1 remains visible until 20% of 16s = 3.2s */
+  25%  { opacity: 0; }   /* Slide #1 fades out between 20%→25% */
+
+  25%  { opacity: 0; }   /* Slide #2 is still hidden at 25%    */
+  45%  { opacity: 1; }   /* Slide #2 fades in and stays until 45% = 7.2s*/
+  50%  { opacity: 0; }   /* Slide #2 fades out */
+
+  50%  { opacity: 0; }   /* Slide #3 hidden at 50% */
+  70%  { opacity: 1; }   /* Slide #3 visible (6.4s→11.2s) */
+  75%  { opacity: 0; }   /* Slide #3 fades out */
+
+  75%  { opacity: 0; }   /* Slide #4 hidden at 75% */
+  95%  { opacity: 1; }   /* Slide #4 visible (12s→15.2s) */
+  100% { opacity: 0; }   /* Slide #4 fades out by 16s, then loop back to slide #1 */
+}
+
+/* ==========================
+   2.3 Apply Animation with Delays
+   ========================== */
+
+/* 
+  Suppose there are exactly 4 .css-slide elements, in document order.
+  We give each slide the same animation, but staggered by the proper delay. 
+*/
+
+/* Slide 1: no delay—plays from 0%→25% of cycle. */
+.css-slide:nth-child(1) {
+  animation: fadeSlides 16s infinite;
+}
+
+/* Slide 2: start at 25% of cycle (i.e., 16s * 0.25 = 4s in) */
+.css-slide:nth-child(2) {
+  animation: fadeSlides 16s infinite;
+  animation-delay: 4s;
+}
+
+/* Slide 3: start at 50% of cycle (16s * 0.50 = 8s in) */
+.css-slide:nth-child(3) {
+  animation: fadeSlides 16s infinite;
+  animation-delay: 8s;
+}
+
+/* Slide 4: start at 75% of cycle (16s * 0.75 = 12s in) */
+.css-slide:nth-child(4) {
+  animation: fadeSlides 16s infinite;
+  animation-delay: 12s;
+}

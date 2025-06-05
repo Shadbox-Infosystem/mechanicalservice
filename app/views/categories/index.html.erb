@@ -1,0 +1,26 @@
+<div class="container-fluid mt-4">
+  <!-- HEADER WITH RIBBON -->
+  <div class="category-header">
+    <span class="product-title">Product</span>
+    <span class="category-ribbon">Categories</span>
+  </div>
+
+  <!-- HORIZONTALLY SCROLLABLE ROW OF CARDS -->
+  <div class="category-row-scroll">
+    <% @categories.each do |category| %>
+      <div class="category-card">
+        <% if category.respond_to?(:image_url) && category.image_url.present? %>
+          <img src="<%= category.image_url %>" alt="<%= category.name %>" />
+        <% else %>
+          <!-- Use a larger placeholder to fill out the card nicely -->
+          <img src="https://via.placeholder.com/150?text=<%= category.name %>" alt="<%= category.name %>" />
+        <% end %>
+
+        <div class="category-title"><%= category.name %></div>
+        <div class="category-subtitle">Upto 45% Off</div>
+
+        <%= link_to 'Shop Now', category_path(category), class: 'shop-btn' %>
+      </div>
+    <% end %>
+  </div>
+</div>
