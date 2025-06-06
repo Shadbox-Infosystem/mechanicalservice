@@ -4,9 +4,6 @@ one:
   category: one
   name: MyString
   description: MyText
-  part_dia: 9.99
-  part_length: 9.99
-  grade: MyString
   image_url: MyString
   overstock: false
 
@@ -14,8 +11,5 @@ two:
   category: two
   name: MyString
   description: MyText
-  part_dia: 9.99
-  part_length: 9.99
-  grade: MyString
   image_url: MyString
   overstock: false

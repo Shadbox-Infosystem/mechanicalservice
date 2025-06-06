@@ -1,5 +1,5 @@
 <%# app/views/products/_form.html.erb %>
-<%= form_with(model: product, local: true) do |form| %>
+<%= form_with(model: product, local: true, data: { turbo: false }) do |form| %>
   <% if product.errors.any? %>
     <div class="alert alert-danger">
       <h2><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h2>
@@ -11,34 +11,18 @@
     </div>
   <% end %>
 
+  <h1 class="mb-4"> <%= product.persisted? ? 'Edit Product' : 'New Product' %> </h1>
+
   <div class="form-group">
     <%= form.label :name %>
     <%= form.text_field :name, class: 'form-control' %>
   </div>
 
-  <div class="form-group">
-    <%= form.label :category_id %>
-    <%= form.collection_select :category_id, Category.all, :id, :name, {}, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :part_dia, 'Part Diameter (mm)' %>
-    <%= form.number_field :part_dia, step: :any, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :part_length, 'Part Length (mm)' %>
-    <%= form.number_field :part_length, step: :any, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :grade %>
-    <%= form.text_field :grade, class: 'form-control' %>
-  </div>
+  
 
   <div class="form-group">
     <%= form.label :description %>
-    <%= form.text_area :description, class: 'form-control' %>
+    <%= form.rich_text_area :description, class: 'form-control', rows: 6 %>
   </div>
 
   <div class="form-group">
@@ -46,10 +30,6 @@
     <%= form.file_field :image, class: 'form-control', accept: 'image/*' %>
   </div>
 
-  <div class="form-group">
-    <%= form.label :overstock %>
-    <%= form.number_field :overstock, class: 'form-control' %>
-  </div>
 
   <div class="text-center mt-4">
     <%= form.submit product.persisted? ? 'Update Product' : 'Create Product', class: 'btn btn-primary px-5 py-2' %>

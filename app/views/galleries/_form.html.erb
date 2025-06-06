@@ -1,4 +1,5 @@
 <%= form_with(model: gallery, local: true, html: { multipart: true }) do |form| %>
+  <h1 class="mb-4"><%= gallery.persisted? ? 'Edit Gallery' : 'New Gallery' %></h1>
   <% if gallery.errors.any? %>
     <div class="error-messages">
       <h2><%= pluralize(gallery.errors.count, "error") %> prohibited this gallery from being saved:</h2>
@@ -44,6 +45,25 @@
   </div>
 <% end %>
 
+<style>
+  .gallery-edit-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+
+  .gallery-edit-container h1 {
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .gallery-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+</style> 
 <style>
   .form-group {
     margin-bottom: 1.5rem;

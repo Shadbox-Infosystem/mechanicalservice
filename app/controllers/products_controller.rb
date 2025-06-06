@@ -50,9 +50,6 @@ class ProductsController < ApplicationController
       :name,
       :description,
       :category_id,
-      :part_dia,
-      :part_length,
-      :grade,
       :image,
       :overstock
     )

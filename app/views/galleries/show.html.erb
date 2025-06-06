@@ -1,22 +1,45 @@
 <div class="gallery-show-container">
-  <div class="gallery-header">
-    <h1><%= @gallery.title %></h1>
-    
-    <% if defined?(user_signed_in?) && user_signed_in? %>
-      <div class="gallery-actions">
-        <%= link_to edit_gallery_path(@gallery), class: "btn-edit" do %>
-          <i class="fas fa-edit"></i> Edit
-        <% end %>
-        <%= button_to gallery_path(@gallery), 
-                    method: :delete, 
-                    class: "btn-delete",
-                    data: { confirm: "Are you sure you want to delete this gallery?" } do %>
-          <i class="fas fa-trash"></i> Delete
-        <% end %>
+  <h1 class="text-center mb-5 gallery-heading-gradient" style="font-size: 2.5rem; font-weight: 800; letter-spacing: 1px;"> <%= @gallery.title %> </h1>
+  <div class="row justify-content-center align-items-start mb-4">
+    <div class="col-md-5 mb-4 mb-md-0 d-flex justify-content-center">
+      <% if @gallery.images.attached? && @gallery.images.first %>
+        <%= image_tag @gallery.images.first.variant(resize_to_limit: [500, 350]), class: 'img-fluid rounded shadow', alt: @gallery.title, style: 'max-height:350px; object-fit:contain;' %>
+      <% else %>
+        <div class="d-flex align-items-center justify-content-center bg-light rounded shadow" style="width:100%; min-height: 250px; max-width: 500px;">
+          <span class="text-muted">No Image Available</span>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-7">
+      <div class="bg-white rounded-4 shadow p-4 h-100">
+        <div class="mb-3" style="color: #333; font-size: 1.1rem;">
+          <% if @gallery.description.present? %>
+            <div class="mb-3">
+              <strong>Description:</strong>
+              <div class="mt-2"><%= @gallery.description %></div>
+            </div>
+          <% end %>
+        </div>
+        <div class="d-flex gap-3 mt-4">
+          <% if defined?(user_signed_in?) && user_signed_in? %>
+            <%= link_to edit_gallery_path(@gallery), class: "btn btn-primary px-5 py-2" do %>
+              <i class="fas fa-edit"></i> Edit
+            <% end %>
+            <%= button_to gallery_path(@gallery), 
+                        method: :delete, 
+                        class: "btn btn-outline-danger px-5 py-2",
+                        data: { confirm: "Are you sure you want to delete this gallery?" } do %>
+              <i class="fas fa-trash"></i> Delete
+            <% end %>
+          <% end %>
+          <%= link_to galleries_path, class: "btn btn-outline-secondary px-5 py-2" do %>
+            <i class="fas fa-arrow-left"></i> Back to Galleries
+          <% end %>
+        </div>
       </div>
-    <% end %>
+    </div>
   </div>
-
+  <h3 class="mt-5 mb-3 gallery-heading-gradient" style="font-size: 1.5rem; font-weight: 700; letter-spacing: 1px;">Gallery Images</h3>
   <div class="gallery-images-grid">
     <% if @gallery.images.attached? %>
       <% @gallery.images.each do |image| %>
@@ -31,12 +54,6 @@
         <i class="fas fa-images"></i>
         <p>No images in this gallery</p>
       </div>
-    <% end %>
-  </div>
-
-  <div class="gallery-navigation">
-    <%= link_to galleries_path, class: "btn-back" do %>
-      <i class="fas fa-arrow-left"></i> Back to Galleries
     <% end %>
   </div>
 </div>
@@ -172,6 +189,10 @@
     .gallery-images-grid {
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 1rem;
+    }
+
+    .gallery-heading-gradient {
+      font-size: 2rem !important;
     }
   }
 

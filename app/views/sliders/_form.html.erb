@@ -1,4 +1,5 @@
 <%= form_with(model: slider, local: true, html: { class: 'p-4 bg-white rounded-4 shadow', style: 'max-width: 600px; margin: 0 auto;' }) do |form| %>
+  <h1 class="mb-4"> <%= slider.persisted? ? 'Edit Slider' : 'New Slider' %> </h1>
   <% if slider.errors.any? %>
     <div class="alert alert-danger">
       <h5><%= pluralize(slider.errors.count, "error") %> prohibited this slider from being saved:</h5>
