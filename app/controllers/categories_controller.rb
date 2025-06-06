@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CategoriesController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[index show]
+  # skip_before_action :authenticate_user!, only: %i[index show]
   before_action :set_category, only: %i[show edit update destroy]
 
   def index

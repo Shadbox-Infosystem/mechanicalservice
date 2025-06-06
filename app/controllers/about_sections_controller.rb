@@ -2,7 +2,7 @@
 
 # app/controllers/about_sections_controller.rb
 class AboutSectionsController < ApplicationController
-  skip_before_action :authenticate_user! # uncomment if only admins can edit
+  # skip_before_action :authenticate_user! # uncomment if only admins can edit
 
   before_action :set_about_section, only: %i[edit update destroy]
 
