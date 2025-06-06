@@ -10,7 +10,7 @@ class ContactsController < ApplicationController
     @contact = Contact.new(contact_params)
 
     if @contact.save
-      # You can add mailer functionality here later
+      ContactMailer.new_contact(@contact).deliver_later
       flash[:notice] = "Thank you for your message. We'll get back to you soon!"
       redirect_to root_path
     else
