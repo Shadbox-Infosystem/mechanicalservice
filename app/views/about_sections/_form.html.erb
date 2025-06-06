@@ -1,0 +1,48 @@
+<!-- app/views/about_sections/_form.html.erb -->
+
+<%= form_with(model: @about_section, local: true, html: { multipart: true }) do |f| %>
+  <% if @about_section.errors.any? %>
+    <div class="error-messages">
+      <h2><%= pluralize(@about_section.errors.count, "error") %> prohibited this section from being saved:</h2>
+      <ul>
+        <% @about_section.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :title %>
+    <%= f.text_field :title, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :content %>
+    <%= f.text_area :content, class: "form-control", rows: 6 %>
+  </div>
+
+  <!-- Replace the old image_url text_field with a file_field: -->
+  <div class="form-group">
+    <%= f.label :image, "Upload Image" %>
+    <%= f.file_field :image, class: "form-control-file" %>
+    <% if @about_section.image.attached? %>
+      <div class="current-image-preview mt-2">
+        <p>Current image:</p>
+        <%= image_tag url_for(@about_section.image.variant(resize_to_limit: [300, 200])), 
+                      alt: "Current Image", 
+                      class: "img-thumbnail" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :position %>
+    <%= f.number_field :position, class: "form-control" %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit class: "btn btn-primary" %>
+    <%= link_to "Cancel", about_sections_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>

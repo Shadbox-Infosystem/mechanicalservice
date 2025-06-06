@@ -1,0 +1,29 @@
+<div class="gallery-edit-container">
+  <h1>Edit Gallery</h1>
+
+  <%= render 'form', gallery: @gallery %>
+
+  <div class="gallery-actions mt-4">
+    <%= link_to 'Back to Gallery', @gallery, class: 'btn btn-secondary' %>
+  </div>
+</div>
+
+<style>
+  .gallery-edit-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+
+  .gallery-edit-container h1 {
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .gallery-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+</style> 

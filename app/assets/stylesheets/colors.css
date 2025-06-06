@@ -1,0 +1,31 @@
+:root {
+  /* Main color palette */
+  --color-primary: #4f46e5;    /* Indigo */
+  --color-secondary: #6366f1;  /* Lighter indigo */
+  --color-tertiary: #4338ca;   /* Darker indigo */
+  --color-dark: #0f172a;       /* Dark navy */
+  --color-muted: #64748b;      /* Slate gray */
+  
+  /* Text colors */
+  --text-primary: var(--color-dark);
+  --text-secondary: var(--color-muted);
+  --text-light: #ffffff;
+  
+  /* Background colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: var(--color-secondary);
+  
+  /* Border colors */
+  --border-light: #e2e8f0;
+  --border-medium: var(--color-primary);
+  --border-dark: var(--color-tertiary);
+  
+  /* Shadow colors */
+  --shadow-color: rgba(0, 0, 0, 0.15);
+  
+  /* Navigation specific */
+  --nav-bg: var(--color-dark);
+  --nav-shadow: var(--shadow-color);
+  --link-radius: 999px;
+} 

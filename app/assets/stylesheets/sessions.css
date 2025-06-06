@@ -1,0 +1,237 @@
+/* ==============================
+   app/assets/stylesheets/sessions.css
+   Styles for the Devise “Log in” page.
+   ============================== */
+
+/* ----------- VARIABLES FOR EASY TWEAKING ----------- */
+:root {
+  --page-bg: #0f172a;           /* Page background color (very dark/navy) */
+  --card-bg: #1e293b;           /* Card background (dark gray/blue) */
+  --card-radius: 8px;
+  --card-shadow: rgba(0, 0, 0, 0.3);
+
+  --text-light: #e2e8f0;        /* Light gray text */
+  --text-placeholder: #94a3b8;  /* Placeholder / muted text */
+
+  --input-bg: #334155;          /* Input background (dark gray) */
+  --input-border: #475569;      /* Input border */
+  --input-focus: #4f46e5;       /* Bright indigo focus ring */
+
+  --button-bg: #4f46e5;         /* Primary button (indigo) */
+  --button-hover: #4338ca;      /* Hover shading */
+  --button-text: #ffffff;       /* White text on button */
+
+  --link-color: #93c5fd;        /* Light blue link colors */
+  --link-hover: #bfdbfe;        /* Hover state for links */
+
+  --font-family: "Helvetica Neue", Arial, sans-serif;
+  --transition: 0.2s ease-in-out;
+}
+
+/* =========================
+   1. GLOBAL PAGE STYLES
+========================= */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: var(--font-family);
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Full viewport height */
+/*  background: var(--page-bg);*/
+}
+
+/* =========================
+   2. THE CARD ITSELF
+========================= */
+.login-card {
+  background: var(--card-bg);
+  border-radius: var(--card-radius);
+  box-shadow: 0 8px 24px var(--card-shadow);
+  padding: 2rem 2.5rem;
+  max-width: 400px;
+  width: 90%;
+  box-sizing: border-box;
+  color: var(--text-light);
+}
+
+/* Center the logo at the top */
+.login-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.login-logo-img {
+  max-height: 40px;
+  max-width: 100%;
+}
+
+/* =========================
+   3. CARD TITLE
+========================= */
+.login-title {
+  text-align: center;
+  font-size: 1.4rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+/* =========================
+   4. FORM STYLES
+========================= */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* Group each label+input pair */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* LABEL */
+.form-label {
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+  color: var(--button-text);
+  font-weight: 500;
+}
+
+/* INPUTS (email + password) */
+.form-input {
+  padding: 0.6rem 0.75rem;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  color: var(--text-light);
+  font-size: 1rem;
+  transition: border var(--transition), background var(--transition);
+}
+
+.form-input::placeholder {
+  color: var(--text-placeholder);
+}
+
+/* Focus state: indigo outline */
+.form-input:focus {
+  outline: none;
+  border-color: var(--input-focus);
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.3);
+  background: #334155;
+}
+
+/* =========================
+   5. REMEMBER‐ME + FORGOT LINKS
+========================= */
+.remember-me-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: -0.5rem; /* Slight lift so it’s closer to password field */
+}
+
+.remember-me-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+.remember-me-checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--input-focus);
+  cursor: pointer;
+}
+
+.forgot-password-link {
+  font-size: 0.9rem;
+  color: var(--link-color);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+.forgot-password-link:hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+}
+
+/* =========================
+   6. SUBMIT BUTTON
+========================= */
+.form-button {
+  width: 100%;
+  padding: 0.7rem;
+  background: var(--button-bg);
+  color: var(--button-text);
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.form-button:hover {
+  background: var(--button-hover);
+  transform: translateY(-1px);
+}
+
+/* =========================
+   7. “Sign up” LINK AT BOTTOM
+========================= */
+.signup-link-container {
+  text-align: center;
+  margin-top: 1.4rem;
+}
+
+.signup-text {
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+.signup-link {
+  color: var(--link-color);
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 0.2rem;
+  transition: color var(--transition);
+}
+
+.signup-link:hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+}
+
+/* =========================
+   8. RESPONSIVE ADJUSTMENTS
+========================= */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 1.5rem 1.5rem;
+  }
+
+  .login-title {
+    font-size: 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .form-input {
+    font-size: 0.95rem;
+  }
+
+  .form-button {
+    font-size: 0.95rem;
+  }
+}

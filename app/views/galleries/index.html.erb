@@ -1,0 +1,359 @@
+<div class="gallery-container">
+  <h1 class="gallery-title">Our Gallery</h1>
+  
+  <div class="gallery-grid">
+    <% @galleries.each do |gallery| %>
+      <div class="gallery-card">
+        <div class="gallery-images">
+          <% if gallery.images.attached? %>
+            <% if gallery.images.count > 1 %>
+              <div class="carousel-container">
+                <div class="carousel-wrapper">
+                  <% gallery.images.each_with_index do |image, index| %>
+                    <div class="carousel-slide <%= 'active' if index == 0 %>">
+                      <%= image_tag image.variant(resize_to_limit: [400, 400]),
+                                   alt: gallery.title,
+                                   loading: "lazy" %>
+                    </div>
+                  <% end %>
+                </div>
+
+                <!-- Dots stay; arrows removed -->
+                <div class="carousel-dots">
+                  <% gallery.images.each_with_index do |_, index| %>
+                    <span
+                      class="dot <%= 'active' if index == 0 %>"
+                      onclick="goToSlide(this, <%= index %>)">
+                    </span>
+                  <% end %>
+                </div>
+              </div>
+            <% else %>
+              <div class="gallery-image">
+                <%= image_tag gallery.images.first.variant(resize_to_limit: [400, 400]),
+                             alt: gallery.title,
+                             loading: "lazy" %>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="gallery-image placeholder">
+              <i class="fas fa-image"></i>
+              <span>No images</span>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="gallery-content">
+          <h3><%= gallery.title %></h3>
+          <% if gallery.description.present? %>
+            <p class="gallery-description"><%= gallery.description %></p>
+          <% end %>
+          <% if user_signed_in? %>
+            <div class="gallery-actions">
+              <%= link_to edit_gallery_path(gallery), class: "btn-edit" do %>
+                <i class="fas fa-edit"></i> Edit
+              <% end %>
+              <%= button_to gallery_path(gallery),
+                            method: :delete,
+                            class: "btn-delete",
+                            data: { confirm: "Are you sure?" } do %>
+                <i class="fas fa-trash"></i> Delete
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <% if user_signed_in? %>
+    <div class="gallery-add">
+      <%= link_to new_gallery_path, class: "btn-add" do %>
+        <i class="fas fa-plus"></i> Add New Gallery
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<style>
+  /* ===== Container & Title ===== */
+  .gallery-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  .gallery-title {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+  }
+
+  /* ===== Grid & Cards ===== */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+  .gallery-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .gallery-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  /* ===== Full-Width Image / Carousel Styles ===== */
+
+  /* Remove the two-column layout so that each image/carousel spans full width */
+  .gallery-images {
+    display: block;       /* was: display: grid; grid-template-columns: repeat(2, 1fr); */
+    padding: 0;           /* remove padding so image touches card edges */
+  }
+
+  /* Single-image case */
+  .gallery-image {
+    width: 100%;
+    height: 250px;        /* adjust height as needed */
+    overflow: hidden;
+    border-radius: 5px 5px 0 0; /* top corners rounded, bottom touches title */
+    margin-bottom: 0;     /* no extra gap */
+  }
+  .gallery-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  .gallery-card:hover .gallery-image img {
+    transform: scale(1.05);
+  }
+  .gallery-image.placeholder {
+    background: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    border-radius: 5px 5px 0 0;
+    height: 250px;
+    margin-bottom: 0;
+  }
+  .gallery-image.placeholder i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Multi-image Carousel */
+  .carousel-container {
+    width: 100%;
+    height: 250px;        /* match single-image height */
+    overflow: hidden;
+    border-radius: 5px 5px 0 0; /* round top corners */
+    margin-bottom: 0;
+    background: #f8f9fa;  /* optional background while loading slides */
+  }
+  .carousel-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  .carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+  }
+  .carousel-slide.active {
+    opacity: 1;
+    z-index: 1;
+  }
+  .carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Remove any leftover “.carousel-button” styles if desired: */
+  /* .carousel-button { display: none !important; } */
+
+  /* Dots remain so users can still click to jump to a specific slide */
+  .carousel-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 2;
+  }
+  .dot {
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .dot.active {
+    background: white;
+  }
+
+  /* ===== Content & Action Buttons ===== */
+  .gallery-content {
+    padding: 1rem 1.5rem; /* less top padding now that image is full-width */
+  }
+  .gallery-content h3 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+  }
+  .gallery-description {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .gallery-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .btn-edit,
+  .btn-delete,
+  .btn-add {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+  }
+  .btn-edit {
+    background-color: #3498db;
+    color: white;
+  }
+  .btn-edit:hover {
+    background-color: #2980b9;
+  }
+  .btn-delete {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-delete:hover {
+    background-color: #c0392b;
+  }
+
+  .gallery-add {
+    text-align: center;
+    margin-top: 2rem;
+  }
+  .btn-add {
+    background-color: #2ecc71;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+  .btn-add:hover {
+    background-color: #27ae60;
+  }
+
+  /* ===== Responsive Adjustments ===== */
+  @media (max-width: 768px) {
+    .gallery-container {
+      padding: 1rem;
+    }
+    .gallery-title {
+      font-size: 2rem;
+    }
+    .gallery-grid {
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    .gallery-image,
+    .carousel-container {
+      height: 200px; /* slightly shorter on tablet */
+    }
+  }
+  @media (max-width: 480px) {
+    .gallery-grid {
+      grid-template-columns: 1fr;
+    }
+    .gallery-images {
+      display: block;
+    }
+    .gallery-image,
+    .carousel-container {
+      height: 150px; /* shorter on mobile */
+    }
+    .gallery-actions {
+      flex-direction: column;
+    }
+    .btn-edit,
+    .btn-delete {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  // Automatically advance each carousel every 5 seconds
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.carousel-container').forEach((carousel) => {
+      setInterval(() => {
+        // Find the “next” slide by index, then manually toggle classes
+        const slides = carousel.querySelectorAll('.carousel-slide');
+        const dots   = carousel.querySelectorAll('.dot');
+        const currentIndex = Array.from(slides).findIndex(slide =>
+          slide.classList.contains('active')
+        );
+        const nextIndex = (currentIndex + 1) % slides.length;
+
+        // Remove “active” from current
+        slides[currentIndex].classList.remove('active');
+        dots[currentIndex].classList.remove('active');
+
+        // Activate next
+        slides[nextIndex].classList.add('active');
+        dots[nextIndex].classList.add('active');
+      }, 5000);
+    });
+  });
+
+  // Allow user to click on a dot to jump to that slide
+  function goToSlide(dotElement, index) {
+    const carousel = dotElement.closest('.carousel-container');
+    const slides   = carousel.querySelectorAll('.carousel-slide');
+    const dots     = carousel.querySelectorAll('.dot');
+
+    // Deactivate current
+    carousel.querySelector('.carousel-slide.active').classList.remove('active');
+    carousel.querySelector('.dot.active').classList.remove('active');
+
+    // Activate selected
+    slides[index].classList.add('active');
+    dots[index].classList.add('active');
+  }
+</script>

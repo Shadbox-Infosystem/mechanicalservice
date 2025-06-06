@@ -1,18 +1,193 @@
-<!-- app/views/home/index.html.erb -->
+<%= stylesheet_link_tag "home", media: "all", "data-turbolinks-track": "reload" %>
 
-<div class="css-slideshow-container">
-  <% @products.each_with_index do |product, idx| %>
-    <div class="css-slide">
-      <% if product.image_url.present? %>
-        <%= image_tag product.image_url, class: "css-slide-img", alt: product.name %>
-      <% else %>
-        <%= image_tag "placeholder.png", class: "css-slide-img", alt: "No image" %>
+<!-- =========================
+     1. HERO SECTION
+========================= -->
+<section class="hero">
+  <div class="hero-left">
+    <h1>India's Biggest Manufacturer and Exporter<br>
+      of stainless steel pins &amp; CNC turned components</h1>
+    <p>Producing &amp; supplying nearly 1 million parts/day. World-class quality &amp; unbeatable rates.</p>
+    <p>Diameter 0.5 mm – 150 mm | Length 2 mm – 1000 mm</p>
+    <p class="contact-info">
+      <strong>Contact us:</strong> +91 9899785044 (Owner) | 
+      <strong>Email:</strong> info@gcprecision.com
+    </p>
+  </div>
+
+  <div class="hero-right">
+    <div class="slider-container">
+      <% @galleries.limit(4).each_with_index do |gallery, idx| %>
+        <% if gallery.images.attached? %>
+          <div class="slider-slide <%= "active" if idx.zero? %>">
+            <%= image_tag(
+                  gallery.images.first.variant(resize_to_limit: [1200, 600]),
+                  alt: "Hero Image #{idx + 1}",
+                  class: "slider-img"
+                ) %>
+          </div>
+        <% end %>
       <% end %>
-      <div class="css-slide-caption">
-        <h5><%= product.name %></h5>
-        <p><%= product.description %></p>
-        <%= link_to "View Details", product_path(product), class: "btn css-slide-btn" %>
-      </div>
     </div>
-  <% end %>
-</div>
+  </div>
+</section>
+
+<!-- =========================
+     2. PRODUCT FEATURES
+========================= -->
+<section class="product-features">
+  <div class="container">
+    <h2>Product Features</h2>
+    <div class="features-grid">
+      <% @categories.each do |category| %>
+        <div class="feature-item">
+          <% if category.image_url.present? %>
+            <%= image_tag category.image_url,
+                          alt: category.name,
+                          class: "feature-img" %>
+          <% else %>
+            <%= image_tag "placeholder.png",
+                          alt: category.name,
+                          class: "feature-img" %>
+          <% end %>
+          <h5><%= category.name %></h5>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<!-- =========================
+     3. OUR PRODUCTS
+========================= -->
+<section class="our-products">
+  <div class="container">
+    <h2>Our Products</h2>
+    <div class="products-grid">
+      <% @products.each do |product| %>
+        <div class="product-card">
+          <% if product.image_url.present? %>
+            <%= image_tag product.image_url,
+                          alt: product.name,
+                          class: "product-img" %>
+          <% else %>
+            <%= image_tag "placeholder.png",
+                          alt: product.name,
+                          class: "product-img" %>
+          <% end %>
+          <h5><%= product.name %></h5>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<!-- =========================
+     4. OUR GALLERY
+========================= -->
+<section class="our-gallery">
+  <div class="container">
+    <h2>Our Gallery</h2>
+
+    <!-- 4.1: Slideshow container -->
+    <div class="gallery-slideshow-container">
+      <% @galleries.each do |gallery| %>
+        <% gallery.images.each do |img| %>
+          <div class="gallery-slide">
+            <%= image_tag img.variant(resize_to_limit: [1200, 800]),
+                          alt: "Gallery Image",
+                          class: "gallery-slide-img" %>
+          </div>
+        <% end %>
+      <% end %>
+
+      <!-- Prev/Next arrows -->
+      <button class="prev" onclick="changeGallerySlide(-1)">❮</button>
+      <button class="next" onclick="changeGallerySlide(1)">❯</button>
+    </div>
+
+    <!-- 4.2: Dots/navigation -->
+    <div class="gallery-dots">
+      <% total_images = @galleries.sum { |g| g.images.length } %>
+      <% (1..total_images).each do |i| %>
+        <span class="gallery-dot" onclick="currentGallerySlide(<%= i %>)"></span>
+      <% end %>
+    </div>
+  </div>
+</section>
+<!-- =========================
+     5. SLIDER SCRIPT
+========================= -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const slides = document.querySelectorAll(".slider-slide");
+    let current = 0;
+    const total = slides.length;
+    const intervalTime = 4000; // 4 seconds
+
+    if (slides.length > 1) {
+      slides.forEach((slide, idx) => {
+        slide.style.opacity = idx === 0 ? "1" : "0";
+      });
+
+      setInterval(() => {
+        slides[current].style.opacity = "0";
+        current = (current + 1) % total;
+        slides[current].style.opacity = "1";
+      }, intervalTime);
+    }
+  });
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Initialize gallery slideshow
+    window.gallerySlideIndex = 1;
+    showGallerySlides(window.gallerySlideIndex);
+
+    // OPTIONAL: auto-cycle every 5 seconds
+    window.galleryAuto = setInterval(() => {
+      changeGallerySlide(1);
+    }, 5000);
+  });
+
+  function changeGallerySlide(n) {
+    showGallerySlides(window.gallerySlideIndex += n);
+    // Reset auto-cycle timer whenever user manually clicks
+    if (window.galleryAuto) {
+      clearInterval(window.galleryAuto);
+      window.galleryAuto = setInterval(() => { changeGallerySlide(1); }, 5000);
+    }
+  }
+
+  function currentGallerySlide(n) {
+    showGallerySlides(window.gallerySlideIndex = n);
+    if (window.galleryAuto) {
+      clearInterval(window.galleryAuto);
+      window.galleryAuto = setInterval(() => { changeGallerySlide(1); }, 5000);
+    }
+  }
+
+  function showGallerySlides(n) {
+    const slides = document.getElementsByClassName("gallery-slide");
+    const dots = document.getElementsByClassName("gallery-dot");
+
+    if (slides.length === 0) return;
+
+    if (n > slides.length) {
+      window.gallerySlideIndex = 1;
+    }
+    if (n < 1) {
+      window.gallerySlideIndex = slides.length;
+    }
+
+    for (let i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+    for (let i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+    }
+
+    slides[window.gallerySlideIndex - 1].style.display = "block";
+    dots[window.gallerySlideIndex - 1].className += " active";
+  }
+</script>

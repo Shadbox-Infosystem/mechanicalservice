@@ -1,0 +1,225 @@
+<%= form_with(model: gallery, local: true, html: { multipart: true }) do |form| %>
+  <% if gallery.errors.any? %>
+    <div class="error-messages">
+      <h2><%= pluralize(gallery.errors.count, "error") %> prohibited this gallery from being saved:</h2>
+      <ul>
+        <% gallery.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :title %>
+    <%= form.text_field :title, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :description %>
+    <%= form.text_area :description, class: "form-control", rows: 4, placeholder: "Enter a description for your gallery..." %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :images %>
+    <div class="image-upload-container">
+      <%= form.file_field :images, 
+                         multiple: true, 
+                         accept: 'image/*',
+                         class: "form-control",
+                         data: { 
+                           controller: "image-preview",
+                           action: "change->image-preview#preview"
+                         } %>
+      <div class="image-preview-grid" data-image-preview-target="previewContainer"></div>
+    </div>
+    <small class="form-text text-muted">
+      You can select multiple images. Supported formats: JPG, PNG, GIF. Max size: 5MB per image.
+    </small>
+  </div>
+
+  <div class="form-actions">
+    <%= form.submit class: "btn btn-primary" %>
+    <%= link_to "Cancel", galleries_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>
+
+<style>
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+
+  .form-control:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+  }
+
+  .image-upload-container {
+    margin-bottom: 1rem;
+  }
+
+  .image-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .image-preview {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 5px;
+    overflow: hidden;
+    background: #f8f9fa;
+  }
+
+  .image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .image-preview .remove-image {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .image-preview .remove-image:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  .form-text {
+    font-size: 0.875rem;
+    color: #6c757d;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary {
+    background-color: #3498db;
+    color: white;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background-color: #2980b9;
+  }
+
+  .btn-secondary {
+    background-color: #95a5a6;
+    color: white;
+    border: none;
+  }
+
+  .btn-secondary:hover {
+    background-color: #7f8c8d;
+  }
+
+  .error-messages {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 1.5rem;
+  }
+
+  .error-messages h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .error-messages ul {
+    margin: 0;
+    padding-left: 1.5rem;
+  }
+
+  .error-messages li {
+    margin-bottom: 0.25rem;
+  }
+</style>
+
+<%= javascript_tag do %>
+  document.addEventListener('DOMContentLoaded', function() {
+    const imageInput = document.querySelector('input[type="file"]');
+    const previewContainer = document.querySelector('[data-image-preview-target="previewContainer"]');
+
+    imageInput.addEventListener('change', function(e) {
+      previewContainer.innerHTML = '';
+      
+      Array.from(e.target.files).forEach((file, index) => {
+        if (file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          
+          reader.onload = function(e) {
+            const preview = document.createElement('div');
+            preview.className = 'image-preview';
+            
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            
+            const removeButton = document.createElement('button');
+            removeButton.className = 'remove-image';
+            removeButton.innerHTML = '×';
+            removeButton.onclick = function() {
+              preview.remove();
+              // Create a new FileList without the removed file
+              const dt = new DataTransfer();
+              Array.from(imageInput.files).forEach((f, i) => {
+                if (i !== index) dt.items.add(f);
+              });
+              imageInput.files = dt.files;
+            };
+            
+            preview.appendChild(img);
+            preview.appendChild(removeButton);
+            previewContainer.appendChild(preview);
+          };
+          
+          reader.readAsDataURL(file);
+        }
+      });
+    });
+  });
+<% end %> 

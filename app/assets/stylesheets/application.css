@@ -10,11 +10,15 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
+ *= require colors
  *= require_tree .
  *= require_self
  *= require product_cards
  *= require contacts
  *= require categories
+ *= require about
+ *= require galleries
+ *= require sessions
  */
 
 /* Product Card Grid Styles */
@@ -25,9 +29,9 @@
   justify-content: flex-start;
 }
 .product-card {
-  border: 1.5px solid #120a5a;
+  border: 1.5px solid var(--color-dark);
   border-radius: 6px;
-  background: #fff;
+  background: var(--bg-primary);
   width: 260px;
   display: flex;
   flex-direction: column;
@@ -36,7 +40,7 @@
   transition: box-shadow 0.2s;
 }
 .product-card:hover {
-  box-shadow: 0 4px 24px rgba(18,10,90,0.08);
+  box-shadow: 0 4px 24px var(--shadow-color);
 }
 .product-card-img-wrapper {
   flex: 1 1 auto;
@@ -56,15 +60,15 @@
 .product-card-img-placeholder {
   width: 100%;
   height: 120px;
-  background: #f0f0f0;
+  background: var(--bg-secondary);
   border-radius: 4px;
 }
 .product-card-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #120a5a;
-  color: #fff;
+  background: var(--color-dark);
+  color: var(--text-light);
   padding: 0.5rem 1rem;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
@@ -76,8 +80,8 @@
   text-align: left;
 }
 .product-card-btn {
-  background: #fff;
-  color: #120a5a;
+  background: var(--bg-primary);
+  color: var(--color-dark);
   border: none;
   border-radius: 3px;
   width: 36px;
@@ -92,6 +96,6 @@
   margin-left: 1rem;
 }
 .product-card-btn:hover {
-  background: #ffd700;
-  color: #120a5a;
+  background: var(--color-primary);
+  color: var(--text-light);
 }

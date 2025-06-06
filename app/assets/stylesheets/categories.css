@@ -13,14 +13,14 @@
 .product-title {
   font-size: 2rem;
   font-weight: bold;
-  color: #222;
+  color: var(--text-primary);
   margin-right: 0.5rem;
 }
 
 .category-ribbon {
   position: relative;
-  background: #120a5a;
-  color: #fff;
+  background: var(--color-dark);
+  color: var(--bg-primary);
   font-weight: bold;
   font-size: 2rem;
   padding: 0.2em 1.5em;
@@ -46,7 +46,7 @@
   height: 6px;
 }
 .category-row-scroll::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--shadow-color);
   border-radius: 3px;
 }
 
@@ -55,9 +55,9 @@
 /*–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––*/
 
 .category-card {
-  background: #fff;
-  border: 1px solid #eee;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-light);
+  box-shadow: 0 2px 5px var(--shadow-color);
   border-radius: 4px;
   box-sizing: border-box;
   text-align: center;
@@ -66,13 +66,13 @@
   /* 
     Flex-basis: four cards per row (25%) minus the gap. 
     Because gap is 1rem, we subtract 1rem in total. 
-    The “flex: 1 1 calc(25% - 1rem)” means:
-      - grow: 1 (so if there’s extra space, cards grow equally)
-      - shrink: 1 (so if there’s not enough space, cards shrink equally)
+    The "flex: 1 1 calc(25% - 1rem)" means:
+      - grow: 1 (so if there's extra space, cards grow equally)
+      - shrink: 1 (so if there's not enough space, cards shrink equally)
       - basis: calc(25% - 1rem) (to give each card ~25% minus the gap)
   */
   flex: 1 1 calc(25% - 1rem);
-  min-width: 250px;   /* optionally set a minimum card width (so they don’t shrink too small) */
+  min-width: 250px;   /* optionally set a minimum card width (so they don't shrink too small) */
 }
 
 .category-card:hover {
@@ -90,31 +90,31 @@
 .category-title {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 0.25rem;
 }
 
 /* Subtitle under the title (“Upto 45% Off”) */
 .category-subtitle {
   font-size: 0.9rem;
-  color: #777;
+  color: var(--text-secondary);
   margin-bottom: 1rem;
 }
 
-/* “Shop Now” button styling */
+/* "Shop Now" button styling */
 .shop-btn {
   display: inline-block;
   padding: 0.5rem 1rem;
-  border: 1px solid #120a5a;
-  color: #120a5a;
+  border: 1px solid var(--color-dark);
+  color: var(--color-dark);
   text-decoration: none;
   border-radius: 0.25rem;
   font-weight: 500;
   transition: background 0.3s, color 0.3s;
 }
 .shop-btn:hover {
-  background: #120a5a;
-  color: #fff;
+  background: var(--color-dark);
+  color: var(--bg-primary);
 }
 
 /*–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––*/

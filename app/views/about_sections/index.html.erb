@@ -1,0 +1,139 @@
+<!-- app/views/about_sections/index.html.erb -->
+
+<section class="about-hero">
+  <div class="container">
+    <h1>About Us</h1>
+    <p>Learn more about our journey, mission, and the people who power it.</p>
+
+    <% if user_signed_in? && @sections.any? %>
+      <div class="admin-actions">
+        <!-- “Edit About Section” for the first section in @sections: -->
+        <%= link_to "Edit About Section", edit_about_section_path(@sections.first), 
+                    class: "btn btn-primary mx-1" %>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<% @sections.each do |section| %>
+  <section class="about-section" id="section-<%= section.id %>">
+    <div class="container">
+      <% if user_signed_in? %>
+        <!-- Section‐specific edit/delete buttons -->
+      <% end %>
+
+      <% if section.image.attached? %>
+        <div class="section-image mb-3">
+          <%= image_tag url_for(section.image.variant(resize_to_limit: [800, 600])),
+                        alt: section.title,
+                        class: "img-fluid rounded" %>
+        </div>
+      <% end %>
+
+      <div class="section-text <%= "with-image" if section.image.attached? %>">
+        <h2><%= section.title %></h2>
+        <div class="content">
+          <%= section.content.html_safe %>
+        </div>
+      </div>
+    </div>
+  </section>
+<% end %>
+
+<section class="team-section">
+  <div class="container">
+    <h2>Meet the Team</h2>
+
+    <div class="team-grid">
+      <% @team_members.each do |member| %>
+        <div class="team-card position-relative">
+
+          <!-- Image वाला हिस्सा -->
+          <div class="team-photo mb-3 text-center">
+            <% if member.photo.attached? %>
+              <%= image_tag member.photo.variant(resize_to_limit: [150, 150]),
+                            alt: member.name,
+                            class: "img-fluid rounded-circle" %>
+            <% elsif member.photo_url.present? && member.photo_url =~ /\Ahttps?:\/\//i %>
+              <%= image_tag member.photo_url,
+                            alt: member.name,
+                            class: "img-fluid rounded-circle",
+                            width: 150,
+                            height: 150 %>
+            <% else %>
+              <%= image_tag "https://via.placeholder.com/150?text=No+Photo",
+                            alt: "No photo",
+                            class: "img-fluid rounded-circle" %>
+            <% end %>
+          </div>
+
+          <!-- बाकी टीम का info -->
+          <div class="team-info p-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h3 class="mb-0"><%= member.name %></h3>
+
+              <% if user_signed_in? %>
+                <%= link_to edit_team_member_path(member), class: "btn btn-sm btn-outline-secondary" do %>
+                  <i class="fas fa-edit"></i> Edit
+                <% end %>
+              <% end %>
+            </div>
+
+            <p class="role text-muted mb-2"><%= member.role %></p>
+            <% if member.bio.present? %>
+              <p class="bio"><%= member.bio %></p>
+            <% end %>
+
+            <% if user_signed_in? %>
+              <div class="mt-2">
+                <%= button_to team_member_path(member),
+                              method: :delete,
+                              class: "btn btn-sm btn-outline-danger",
+                              data: { confirm: "Delete this team member?" } do %>
+                  <i class="fas fa-trash"></i> Delete
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<style>
+  .team-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+  }
+
+  .team-card {
+    background: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    width: 250px;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .team-photo img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+  }
+
+  .team-info {
+    padding: 1rem;
+  }
+
+  .team-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .team-card .role {
+    font-size: 0.9rem;
+  }
+</style>

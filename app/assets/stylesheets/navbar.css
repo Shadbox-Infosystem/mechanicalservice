@@ -1,77 +1,211 @@
-/* app/assets/stylesheets/navbar.css */
+/* ===============================
+   app/assets/stylesheets/navbar.css
+   "Solid Dark/NavY" Style
+=============================== */
 
-/* Modern Navbar Styles */
+/* ----------- VARIABLES ----------- */
+:root {
+  --nav-height: 64px;
+  --nav-bg: #0f172a;             /* Very dark/navy base */
+  --nav-shadow: rgba(0, 0, 0, 0.15);
 
+  --link-color: #cbd5e1;         /* Light gray text for non-active links */
+  --link-hover-bg: rgba(203, 213, 225, 0.08); /* subtle hover */
+  --link-active-bg: #1f2937;     /* Darker pill for active link */
+  --link-active-color: #ffffff;  /* Active link text = white */
+  --link-radius: 999px;
+
+  --accent-color: #4f46e5;       /* Bright indigo accent (e.g. for hover outlines) */
+
+  --toggle-size: 20px;           /* Hamburger bar thickness */
+  --transition: 0.2s ease-in-out;
+
+  --icon-size: 20px;             /* Bell icon size */
+  --avatar-size: 32px;           /* Avatar circle */
+  --avatar-border: 2px solid #334155; /* Subtle border around avatar */
+}
+
+/* =========================
+   1. NAVBAR WRAPPER
+========================= */
 .custom-navbar {
-  position: relative;
-  background: #120a5a;
-  height: 70px;
-  overflow: visible;
-  width: 100%;
-}
-
-.navbar-slant {
-  position: absolute;
-  left: 0;
+  position: sticky;
   top: 0;
-  width: 320px;
-  height: 100%;
-  background: #fff;
-  clip-path: polygon(0 0, 80% 0, 100% 100%, 0% 100%);
-  z-index: 1;
+  z-index: 1000;
+  height: var(--nav-height);
+  width: 100%;
+  background: var(--nav-bg);
+  box-shadow: 0 2px 8px var(--nav-shadow);
 }
 
+/* =========================
+   2. NAVBAR CONTENT
+========================= */
 .navbar-content {
-  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 70px;
-  z-index: 2;
-  width: 100%;
-  padding: 0 1rem;
+  padding: 0 1.5rem;
   box-sizing: border-box;
 }
 
-.navbar-brand {
-  font-size: 2rem;
-  font-style: italic;
+/* =========================
+   3. LOGO / BRAND
+========================= */
+.navbar-left .navbar-brand {
+  font-size: 1.25rem;
   font-weight: 700;
-  color: #120a5a;
-  margin-left: 2.5rem;
-  margin-right: 3rem;
-  letter-spacing: 1px;
+  color: #ffffff;
   text-decoration: none;
-  z-index: 2;
-  white-space: nowrap;
+  letter-spacing: 1px;
+  transition: transform var(--transition), color var(--transition);
 }
 
+/* Italic for "GC" and bold for "PRECISION" if desired */
+.navbar-left .brand-italic {
+  font-style: italic;
+}
+
+.navbar-left .brand-bold {
+  font-weight: 800;
+}
+
+.navbar-left .navbar-brand:hover {
+  transform: scale(1.03);
+  color: var(--accent-color);
+}
+
+/* Optional underline on hover */
+.navbar-left .navbar-brand::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent-color);
+  transition: width var(--transition);
+}
+
+.navbar-left .navbar-brand:hover::after {
+  width: 100%;
+}
+
+/* =========================
+   4. NAV LINKS (CENTER)
+========================= */
+.navbar-collapse {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.navbar-nav {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+}
+
+.nav-item {
+  margin: 0;
+}
+
+.nav-link {
+  position: relative;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  color: var(--link-color);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: var(--link-radius);
+  transition: background var(--transition), color var(--transition),
+              box-shadow var(--transition);
+}
+
+.nav-link:hover {
+  background: var(--link-hover-bg);
+  color: #ffffff;
+}
+
+.nav-link.active {
+  background: var(--link-active-bg);
+  color: var(--link-active-color);
+  box-shadow: 0 2px 6px var(--nav-shadow);
+}
+
+/* Small accent bar under the active link */
+.nav-link.active::after {
+  content: "";
+  display: block;
+  height: 3px;
+  width: 100%;
+  background: var(--color-primary);
+  border-radius: 2px 2px 0 0;
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+}
+
+/* =========================
+   5. LOGIN / LOGOUT BUTTON
+========================= */
+.nav-auth {
+  margin-left: 1.5rem;
+}
+
+.nav-auth-btn {
+  display: inline-block;
+  padding: 0.4rem 0.9rem;
+  background: var(--color-primary);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.nav-auth-btn:hover {
+  background: var(--color-tertiary);
+  transform: translateY(-1px);
+}
+
+/* =========================
+   6. HAMBURGER (MOBILE) TOGGLE
+========================= */
 .navbar-toggler {
   display: none;
   background: none;
   border: none;
-  padding: 0.5rem;
   cursor: pointer;
-  z-index: 3;
+  padding: 0.5rem;
+  z-index: 1001;
 }
 
 .navbar-toggler-icon {
   display: block;
-  width: 24px;
+  width: var(--toggle-size);
   height: 2px;
-  background: #fff;
+  background: #ffffff;
   position: relative;
-  transition: background 0.3s;
+  transition: background var(--transition);
 }
 
 .navbar-toggler-icon::before,
 .navbar-toggler-icon::after {
-  content: '';
+  content: "";
   position: absolute;
-  width: 24px;
+  width: var(--toggle-size);
   height: 2px;
-  background: #fff;
-  transition: transform 0.3s;
+  background: #ffffff;
+  transition: transform var(--transition),
+              top var(--transition),
+              bottom var(--transition);
 }
 
 .navbar-toggler-icon::before {
@@ -82,88 +216,91 @@
   bottom: -6px;
 }
 
-.navbar-collapse {
-  display: flex;
-  flex: 1;
-  justify-content: flex-end;
-}
-
-.navbar-nav {
+/* =========================
+   7. RIGHT-SIDE ICONS + AVATAR
+========================= */
+.navbar-right {
   display: flex;
   align-items: center;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  z-index: 2;
+  gap: 1rem;
 }
 
-.navbar-nav .nav-item {
-  margin-left: 2rem;
+/* Bell icon button */
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition), color var(--transition);
+  color: #ffffff;
 }
 
-.navbar-nav .nav-link {
-  color: #fff;
-  text-decoration: none;
-  font-size: 1.1rem;
-  font-weight: 400;
-  padding: 0.5rem 0.7rem;
-  border-radius: 2px;
-  transition: background 0.2s, color 0.2s;
-  position: relative;
-  background: transparent;
-  display: block;
+.icon-button:hover {
+  transform: scale(1.1);
+  color: var(--accent-color);
 }
 
-.navbar-nav .nav-link.active {
-  background: #fff;
-  color: #120a5a;
-  font-weight: 400;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+.icon-bell {
+  width: var(--icon-size);
+  height: var(--icon-size);
 }
 
-.navbar-nav .nav-link:hover {
-  color: #ffd700;
+/* Avatar */
+.avatar-wrapper {
+  display: flex;
+  align-items: center;
 }
 
-.badge.bg-danger {
-  background-color: #7a1b4a;
-  color: #fff;
-  font-size: 0.85rem;
-  border-radius: 999px;
-  padding: 0.15em 0.7em;
-  margin-left: 0.3rem;
-  vertical-align: middle;
-  font-weight: 600;
-  position: relative;
-  top: -2px;
-  opacity: 0.7;
+.nav-avatar {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 50%;
+  object-fit: cover;
+  border: var(--avatar-border);
+  transition: transform var(--transition);
+  cursor: pointer;
 }
 
-@media (max-width: 900px) {
+.nav-avatar:hover {
+  transform: scale(1.05);
+}
+
+/* =========================
+   8. RESPONSIVE @ ≤ 768px
+========================= */
+@media (max-width: 768px) {
   .navbar-content {
     padding: 0 1rem;
   }
 
+  /* Show the hamburger */
   .navbar-toggler {
     display: block;
   }
 
+  /* Hide the default links/btns */
   .navbar-collapse {
     position: fixed;
-    top: 70px;
+    top: var(--nav-height);
     left: 0;
     right: 0;
-    background: #120a5a;
-    padding: 1rem;
+    background: var(--nav-bg);
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
     transform: translateY(-100%);
     opacity: 0;
     visibility: hidden;
-    transition: transform 0.3s, opacity 0.3s, visibility 0.3s;
-    height: auto;
-    max-height: calc(100vh - 70px);
-    overflow-y: auto;
+    transition: transform var(--transition),
+                opacity var(--transition),
+                visibility var(--transition);
+    z-index: 999; /* above page content */
   }
 
+  /* Show menu when .show is toggled */
   .navbar-collapse.show {
     transform: translateY(0);
     opacity: 1;
@@ -172,38 +309,33 @@
 
   .navbar-nav {
     flex-direction: column;
-    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .nav-link {
+    width: 100%;
+    padding: 0.6rem 1rem;
+  }
+
+  .nav-auth {
     width: 100%;
   }
 
-  .navbar-nav .nav-item {
-    margin: 0.5rem 0;
+  .nav-auth-btn {
     width: 100%;
+    text-align: center;
   }
 
-  .navbar-nav .nav-link {
-    display: block;
-    padding: 0.75rem 1rem;
-    width: 100%;
-  }
-
-  .navbar-brand {
-    margin-left: 0;
-    margin-right: 0;
-    font-size: 1.5rem;
-  }
-
+  /* Animate hamburger → "X" on .active */
   .navbar-toggler.active .navbar-toggler-icon {
     background: transparent;
   }
-
   .navbar-toggler.active .navbar-toggler-icon::before {
     transform: rotate(45deg);
     top: 0;
   }
-
   .navbar-toggler.active .navbar-toggler-icon::after {
     transform: rotate(-45deg);
     bottom: 0;
   }
-} 
+}

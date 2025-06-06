@@ -1,123 +1,365 @@
-/* ==========================
-   2.1 Container & Slide Basics
-   ========================== */
-
-.css-slideshow-container {
-  position: relative;
-  width: 100%;
-  max-width: 600px;       /* or whatever max-width you prefer */
-  height: 400px;          /* fix to the height you want for all slides */
-  margin: 0 auto;
-  overflow: hidden;
+/* =========================
+   1. RESET + GLOBAL OPTIONS
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.css-slide {
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+/* =========================
+   2. CONTAINER UTILITY
+========================= */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* =========================
+   3. HERO SECTION
+========================= */
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 1rem;
+  gap: 2rem;
+}
+
+.hero-left {
+  flex: 1 1 400px;
+}
+
+.hero-left h1 {
+  font-size: 2rem;
+  line-height: 1.3;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.hero-left p {
+  font-size: 1rem;
+  margin-bottom: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.hero-left .contact-info {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.hero-right {
+  flex: 1 1 400px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.slider-container {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 */
+}
+
+.slider-slide {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 0;             /* start hidden */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: #f8f9fa;
-  /* box-shadow, border-radius, etc., if needed */
+  opacity: 0;
   transition: opacity 1s ease-in-out;
 }
 
-/* Make sure all images fill the slide and keep aspect-ratio */
-.css-slide-img {
+.slider-slide.active {
+  opacity: 1;
+}
+
+.slider-img {
   width: 100%;
-  height: 60%;            /* adjust (e.g., 60%) so the caption can sit below */
+  height: 100%;
   object-fit: cover;
-  display: block;
 }
 
-/* Caption area under the image */
-.css-slide-caption {
-  padding: 10px;
+@media (max-width: 992px) {
+  .hero {
+    flex-direction: column-reverse;
+  }
+  .hero-right,
+  .hero-left {
+    width: 100%;
+  }
+}
+
+/* =========================
+   4. PRODUCT FEATURES
+========================= */
+.product-features {
+  background: var(--bg-secondary);
+  padding: 2rem 0;
+}
+
+.product-features h2 {
   text-align: center;
-  background: rgba(255,255,255,0.9);
-  width: 100%;
-  box-sizing: border-box;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
 }
 
-/* A button style inside each slide (optional) */
-.css-slide-btn {
-  margin-top: 10px;
-  background-color: #007bff;
-  color: #fff;
-  padding: 6px 12px;
-  border: none;
-  border-radius: 4px;
-  text-decoration: none;
-  display: inline-block;
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1.5rem;
+  align-items: center;
+  justify-items: center;
 }
 
-/* Hover effect on slide card (slight lift) */
-.css-slide:hover {
-  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+.feature-item {
+  text-align: center;
+}
+
+.feature-img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 0.5rem;
+}
+
+.feature-item h5 {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+/* =========================
+   5. OUR PRODUCTS
+========================= */
+.our-products {
+  padding: 2rem 0;
+}
+
+.our-products h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+.product-card {
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  overflow: hidden;
+  text-align: center;
+  background: var(--bg-primary);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.product-card:hover {
+  box-shadow: 0 6px 15px var(--shadow-color);
   transform: translateY(-4px);
 }
 
-/* ==========================
-   2.2 Keyframes for Fade Animation
-   ========================== */
-
-/* 
-  We assume 4 slides. Total cycle = 16s (for example). 
-  Each slide fades in, stays fully visible for 3s, then fades out.
-  Adjust these percentages if you have a different number of slides
-  or want a different timing. 
-*/
-@keyframes fadeSlides {
-  0%   { opacity: 1; }   /* Slide #1 is visible at start */
-  20%  { opacity: 1; }   /* Slide #1 remains visible until 20% of 16s = 3.2s */
-  25%  { opacity: 0; }   /* Slide #1 fades out between 20%→25% */
-
-  25%  { opacity: 0; }   /* Slide #2 is still hidden at 25%    */
-  45%  { opacity: 1; }   /* Slide #2 fades in and stays until 45% = 7.2s*/
-  50%  { opacity: 0; }   /* Slide #2 fades out */
-
-  50%  { opacity: 0; }   /* Slide #3 hidden at 50% */
-  70%  { opacity: 1; }   /* Slide #3 visible (6.4s→11.2s) */
-  75%  { opacity: 0; }   /* Slide #3 fades out */
-
-  75%  { opacity: 0; }   /* Slide #4 hidden at 75% */
-  95%  { opacity: 1; }   /* Slide #4 visible (12s→15.2s) */
-  100% { opacity: 0; }   /* Slide #4 fades out by 16s, then loop back to slide #1 */
+.product-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
 }
 
-/* ==========================
-   2.3 Apply Animation with Delays
-   ========================== */
-
-/* 
-  Suppose there are exactly 4 .css-slide elements, in document order.
-  We give each slide the same animation, but staggered by the proper delay. 
-*/
-
-/* Slide 1: no delay—plays from 0%→25% of cycle. */
-.css-slide:nth-child(1) {
-  animation: fadeSlides 16s infinite;
+.product-card h5 {
+  padding: 0.8rem 0.5rem;
+  font-size: 1rem;
+  color: var(--text-primary);
 }
 
-/* Slide 2: start at 25% of cycle (i.e., 16s * 0.25 = 4s in) */
-.css-slide:nth-child(2) {
-  animation: fadeSlides 16s infinite;
-  animation-delay: 4s;
+/* =========================
+   6. OUR GALLERY
+========================= */
+.our-gallery {
+  background: var(--bg-secondary);
+  padding: 2rem 0;
 }
 
-/* Slide 3: start at 50% of cycle (16s * 0.50 = 8s in) */
-.css-slide:nth-child(3) {
-  animation: fadeSlides 16s infinite;
-  animation-delay: 8s;
+.our-gallery h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
 }
 
-/* Slide 4: start at 75% of cycle (16s * 0.75 = 12s in) */
-.css-slide:nth-child(4) {
-  animation: fadeSlides 16s infinite;
-  animation-delay: 12s;
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
 }
+
+.gallery-item {
+  overflow: hidden;
+  border-radius: 4px;
+  position: relative;
+}
+
+.gallery-thumb {
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%; /* square aspect */
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* =========================
+   7. RESPONSIVE BREAKPOINTS
+========================= */
+@media (max-width: 992px) {
+  .hero-left h1 {
+    font-size: 1.6rem;
+  }
+  .hero-left p {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-left h1 {
+    font-size: 1.4rem;
+  }
+  .hero-left p {
+    font-size: 0.9rem;
+  }
+  .product-card h5 {
+    font-size: 0.9rem;
+  }
+  .feature-img {
+    width: 60px;
+    height: 60px;
+  }
+  .feature-item h5 {
+    font-size: 0.85rem;
+  }
+}
+/* =========================
+   OUR GALLERY SLIDESHOW STYLES
+========================= */
+.gallery-slideshow-container {
+  position: relative;
+  max-width: 100%;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Each slide is hidden by default */
+.gallery-slide {
+  display: none;
+  width: 100%;
+}
+
+/* Image inside each slide */
+.gallery-slide-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+  border-radius: 6px;
+}
+
+/* Prev/Next buttons */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  font-size: 1.5rem;
+  padding: 0.5rem 0.8rem;
+  border: none;
+  border-radius: 3px;
+  user-select: none;
+  transition: background 0.3s ease;
+  z-index: 2;
+}
+
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.prev {
+  left: 8px;
+}
+
+.next {
+  right: 8px;
+}
+
+/* Dots (navigation) */
+.gallery-dots {
+  text-align: center;
+  padding: 0.8rem 0;
+}
+
+.gallery-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin: 0 4px;
+  background-color: #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.gallery-dot:hover,
+.gallery-dot.active {
+  background-color: #555;
+}
+
+/* =========================
+   RESPONSIVE BREAKPOINTS
+========================= */
+@media (max-width: 768px) {
+  .prev,
+  .next {
+    font-size: 1.2rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .gallery-dot {
+    width: 10px;
+    height: 10px;
+    margin: 0 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  .prev,
+  .next {
+    font-size: 1rem;
+    padding: 0.3rem 0.5rem;
+  }
+
+  .gallery-dot {
+    width: 8px;
+    height: 8px;
+    margin: 0 2px;
+  }
+}
+

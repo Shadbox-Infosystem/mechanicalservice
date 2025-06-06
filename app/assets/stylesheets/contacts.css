@@ -1,7 +1,7 @@
 /* Contact Form Styles */
 .contact-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
   padding: 4rem 2rem;
   display: flex;
   justify-content: center;
@@ -9,16 +9,16 @@
 }
 
 .contact-content {
-  background: white;
+  background: var(--bg-primary);
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(18, 10, 90, 0.1);
+  box-shadow: 0 10px 30px var(--shadow-color);
   padding: 3rem;
   max-width: 800px;
   width: 100%;
 }
 
 .contact-title {
-  color: #120a5a;
+  color: var(--text-primary);
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 1rem;
@@ -26,7 +26,7 @@
 }
 
 .contact-subtitle {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 1.1rem;
   text-align: center;
   margin-bottom: 2.5rem;
@@ -44,7 +44,7 @@
 
 .contact-form .form-group label {
   display: block;
-  color: #120a5a;
+  color: var(--text-primary);
   font-weight: 600;
   margin-bottom: 0.5rem;
 }
@@ -52,7 +52,7 @@
 .contact-form .form-group .form-control {
   width: 100%;
   padding: 0.8rem 1rem;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--border-light);
   border-radius: 8px;
   font-size: 1rem;
   transition: all 0.3s ease;
@@ -60,12 +60,12 @@
 
 .contact-form .form-group .form-control:focus {
   outline: none;
-  border-color: #120a5a;
-  box-shadow: 0 0 0 3px rgba(18, 10, 90, 0.1);
+  border-color: var(--color-tertiary);
+  box-shadow: 0 0 0 3px var(--shadow-color);
 }
 
 .contact-form .form-group .form-control::placeholder {
-  color: #999;
+  color: var(--text-secondary);
 }
 
 .contact-form .form-group textarea.form-control {
@@ -74,15 +74,15 @@
 }
 
 .error-messages {
-  background-color: #fff5f5;
-  border: 1px solid #feb2b2;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-medium);
   border-radius: 8px;
   padding: 1rem;
   margin-bottom: 2rem;
 }
 
 .error-messages h2 {
-  color: #c53030;
+  color: var(--text-primary);
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
 }
@@ -94,7 +94,7 @@
 }
 
 .error-messages ul li {
-  color: #c53030;
+  color: var(--text-primary);
   font-size: 0.95rem;
   margin-bottom: 0.25rem;
 }
@@ -105,8 +105,8 @@
 }
 
 .form-actions .submit-button {
-  background-color: #120a5a;
-  color: white;
+  background-color: var(--color-dark);
+  color: var(--bg-primary);
   border: none;
   padding: 1rem 2.5rem;
   font-size: 1.1rem;
@@ -117,9 +117,9 @@
 }
 
 .form-actions .submit-button:hover {
-  background-color: #0f0847;
+  background-color: var(--color-tertiary);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(18, 10, 90, 0.2);
+  box-shadow: 0 4px 12px var(--shadow-color);
 }
 
 .form-actions .submit-button:active {
