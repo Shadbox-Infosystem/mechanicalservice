@@ -38,9 +38,9 @@
     </small>
   </div>
 
-  <div class="form-actions">
-    <%= form.submit class: "btn btn-primary" %>
-    <%= link_to "Cancel", galleries_path, class: "btn btn-secondary" %>
+  <div class="text-center mt-4">
+    <%= form.submit gallery.persisted? ? 'Update Gallery' : 'Create Gallery', class: 'btn btn-primary px-5 py-2' %>
+    <%= link_to 'Cancel', galleries_path, class: 'btn btn-outline-secondary px-5 py-2 ms-2' %>
   </div>
 <% end %>
 
@@ -119,42 +119,6 @@
   .form-text {
     font-size: 0.875rem;
     color: #6c757d;
-  }
-
-  .form-actions {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-  }
-
-  .btn {
-    padding: 0.75rem 1.5rem;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-weight: 500;
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .btn-primary {
-    background-color: #3498db;
-    color: white;
-    border: none;
-  }
-
-  .btn-primary:hover {
-    background-color: #2980b9;
-  }
-
-  .btn-secondary {
-    background-color: #95a5a6;
-    color: white;
-    border: none;
-  }
-
-  .btn-secondary:hover {
-    background-color: #7f8c8d;
   }
 
   .error-messages {

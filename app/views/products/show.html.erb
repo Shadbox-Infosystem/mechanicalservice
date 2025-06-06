@@ -1,30 +1,33 @@
 <%# app/views/products/show.html.erb %>
-<div class="container mt-4">
-  <div class="card">
-    <div class="card-header">
-      <h1><%= @product.name %></h1>
-    </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-6">
+<div class="container mt-5">
+  <div class="d-flex justify-content-center">
+    <div class="product-card" style="max-width: 600px; width: 100%;">
+      <% if @product.image.attached? %>
+        <div class="product-card-img-wrapper">
+          <%= image_tag @product.image.variant(resize_to_limit: [600, 350]), class: 'product-card-img', alt: @product.name %>
+        </div>
+      <% end %>
+      <div class="p-4">
+        <h2 class="gallery-heading-gradient mb-3" style="font-size: 2rem;"> <%= @product.name %> </h2>
+        <div class="mb-3" style="color: #333; font-size: 1.1rem;">
           <p><strong>Category:</strong> <%= @product.category.name %></p>
           <p><strong>Part Diameter:</strong> <%= @product.part_dia %> mm</p>
           <p><strong>Part Length:</strong> <%= @product.part_length %> mm</p>
           <p><strong>Grade:</strong> <%= @product.grade %></p>
-          <p><strong>Description:</strong> <%= @product.description %></p>
-          <% if @product.image.attached? %>
-            <p><strong>Image:</strong></p>
-            <%= image_tag @product.image, class: 'img-fluid' %>
-          <% end %>
           <% if @product.overstock.present? %>
             <p><strong>Overstock:</strong> <%= @product.overstock %></p>
           <% end %>
+          <% if @product.description.present? %>
+            <p><strong>Description:</strong> <%= @product.description %></p>
+          <% end %>
+        </div>
+        <div class="d-flex justify-content-center gap-3 mt-4">
+          <% if defined?(user_signed_in?) && user_signed_in? %>
+            <%= link_to 'Edit', edit_product_path(@product), class: 'btn btn-primary px-5 py-2' %>
+          <% end %>
+          <%= link_to 'Back', products_path, class: 'btn btn-outline-secondary px-5 py-2' %>
         </div>
       </div>
-    </div>
-    <div class="card-footer">
-      <%= link_to 'Edit', edit_product_path(@product), class: 'btn btn-warning' %>
-      <%= link_to 'Back', products_path, class: 'btn btn-secondary' %>
     </div>
   </div>
 </div> 

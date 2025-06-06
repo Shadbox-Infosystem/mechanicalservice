@@ -1,0 +1,36 @@
+<%= form_with(model: slider, local: true, html: { class: 'p-4 bg-white rounded-4 shadow', style: 'max-width: 600px; margin: 0 auto;' }) do |form| %>
+  <% if slider.errors.any? %>
+    <div class="alert alert-danger">
+      <h5><%= pluralize(slider.errors.count, "error") %> prohibited this slider from being saved:</h5>
+      <ul class="mb-0">
+        <% slider.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group mb-3">
+    <%= form.label :title, class: 'form-label' %>
+    <%= form.text_field :title, class: 'form-control', placeholder: 'Enter slider title' %>
+  </div>
+
+  <div class="form-group mb-3">
+    <%= form.label :description, class: 'form-label' %>
+    <%= form.text_area :description, class: 'form-control', rows: 3, placeholder: 'Enter slider description' %>
+  </div>
+
+  <div class="form-group mb-3">
+    <%= form.label :image, class: 'form-label' %>
+    <%= form.file_field :image, class: 'form-control', accept: 'image/*' %>
+    <% if slider.image.attached? %>
+      <div class="mt-2">
+        <%= image_tag slider.image.variant(resize_to_limit: [300, 200]), class: 'img-thumbnail', style: 'max-width: 200px;' %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="text-center mt-4">
+    <%= form.submit slider.persisted? ? 'Update Slider' : 'Create Slider', class: 'btn btn-primary px-5 py-2' %>
+  </div>
+<% end %>

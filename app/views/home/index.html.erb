@@ -3,50 +3,71 @@
 <!-- =========================
      1. HERO SECTION
 ========================= -->
-<section class="hero">
-  <div class="hero-left">
-    <h1>India's Biggest Manufacturer and Exporter<br>
-      of stainless steel pins &amp; CNC turned components</h1>
-    <p>Producing &amp; supplying nearly 1 million parts/day. World-class quality &amp; unbeatable rates.</p>
-    <p>Diameter 0.5 mm – 150 mm | Length 2 mm – 1000 mm</p>
-    <p class="contact-info">
-      <strong>Contact us:</strong> +91 9899785044 (Owner) | 
-      <strong>Email:</strong> info@gcprecision.com
-    </p>
-  </div>
-
-  <div class="hero-right">
-    <div class="slider-container">
-      <% @galleries.limit(4).each_with_index do |gallery, idx| %>
-        <% if gallery.images.attached? %>
-          <div class="slider-slide <%= "active" if idx.zero? %>">
-            <%= image_tag(
-                  gallery.images.first.variant(resize_to_limit: [1200, 600]),
-                  alt: "Hero Image #{idx + 1}",
-                  class: "slider-img"
-                ) %>
-          </div>
-        <% end %>
-      <% end %>
+<%# SaaS-style HERO SECTION %>
+<section class="text-white px-0 position-relative" style="background: linear-gradient(90deg, #0d6efd 0%, #6610f2 100%); margin-bottom: 2.5rem; box-shadow: 0 8px 32px rgba(13, 110, 253, 0.12); overflow: hidden;">
+  <div class="container-fluid px-lg-5">
+    <div class="row align-items-center w-100 mx-0" style="min-height: 340px;">
+      <div class="col-lg-6 text-lg-start text-center d-flex flex-column justify-content-center py-4 py-lg-0">
+        <h1 class="display-2 fw-bold mb-3" style="letter-spacing:1px; line-height: 1.05;">
+          India's Biggest Manufacturer<br>and Exporter
+        </h1>
+        <h2 class="h4 fw-bold mb-3" style="color: #ffe066; letter-spacing:1px; line-height: 1.2;">
+          of stainless steel pins & CNC turned components
+        </h2>
+        <p class="lead mb-4" style="color: #e0e0e0; font-size: 1.15rem;">
+          Producing & supplying nearly 1 million parts/day. World-class quality & unbeatable rates.
+        </p>
+        <div class="mb-3">
+          <span class="badge bg-warning text-dark fs-6 me-2">Diameter 0.5 mm – 150 mm</span>
+          <span class="badge bg-light text-dark fs-6">Length 2 mm – 1000 mm</span>
+        </div>
+        <div class="mb-4">
+          <strong>Contact us:</strong> <a href="tel:+919899785044" class="text-white text-decoration-underline">+91 9899785044</a> (Owner) &nbsp; | &nbsp;
+          <strong>Email:</strong> <a href="mailto:info@gcprecision.com" class="text-white text-decoration-underline">info@gcprecision.com</a>
+        </div>
+        <div class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-3 mb-2">
+          <a href="/contact" class="btn btn-lg btn-warning fw-bold shadow">Get Started Free</a>
+          <a href="/about" class="btn btn-lg btn-outline-light fw-bold shadow">Learn More</a>
+        </div>
+      </div>
+      <div class="col-lg-6 text-center d-flex align-items-center justify-content-center py-4 py-lg-0" style="min-height: 320px;">
+        <div class="bg-white rounded-4 shadow-lg p-3 mx-auto" style="max-width: 480px;">
+          <img src="/assets/hero-monitor.svg" alt="Hero Illustration" class="img-fluid" style="max-width: 420px;" />
+        </div>
+      </div>
     </div>
   </div>
+  <!-- Decorative SVG Wave -->
+  <div style="position: absolute; left: 0; right: 0; bottom: -1px; z-index: 2;">
+    <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 60px; display: block;"><path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#f8f9fa"/></svg>
+  </div>
 </section>
+
+<!-- Animate.css CDN for entrance effects -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
 <!-- =========================
      2. PRODUCT FEATURES
 ========================= -->
-<section class="product-features">
+<section class="py-5 bg-light">
   <div class="container">
-    <h2>Product Features</h2>
-    <div class="features-grid">
+    <h2 class="fw-bold text-center mb-5" style="font-size:2.2rem; letter-spacing:1px;">Product Features</h2>
+    <div class="row g-4 justify-content-center">
       <% @categories.each do |category| %>
-        <div class="feature-item">
-          <% if category.image_url.present? %>
-            <%= image_tag category.image_url,
-                          alt: category.name,
-                          class: "feature-img" %>
-          <% end %>
-          <h5><%= category.name %></h5>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="card h-100 shadow-sm border-0 feature-card-modern text-center p-3 hover-shadow">
+            <% if category.image_url.present? %>
+              <img src="<%= category.image_url %>" alt="<%= category.name %>" class="feature-img mb-3 rounded-circle mx-auto" style="width:64px; height:64px; object-fit:cover; background:#f8f9fa;" />
+            <% else %>
+              <div class="feature-icon-circle mb-3 mx-auto bg-primary bg-opacity-10 d-flex align-items-center justify-content-center rounded-circle" style="width:64px; height:64px;">
+                <i class="bi bi-star fs-2 text-primary"></i>
+              </div>
+            <% end %>
+            <h5 class="fw-bold mb-1"><%= category.name %></h5>
+            <% if category.description.present? %>
+              <p class="text-muted small mb-0"><%= category.description %></p>
+            <% end %>
+          </div>
         </div>
       <% end %>
     </div>
@@ -56,22 +77,22 @@
 <!-- =========================
      3. OUR PRODUCTS
 ========================= -->
-<section class="our-products">
+<section class="py-5">
   <div class="container">
-    <h2>Our Products</h2>
-    <div class="products-grid">
+    <h2 class="fw-bold text-center mb-5" style="font-size:2.2rem; letter-spacing:1px;">Our Products</h2>
+    <div class="row g-4 justify-content-center">
       <% @products.each do |product| %>
-        <div class="product-card">
-          <% if product.image_url.present? %>
-            <%= image_tag product.image_url,
-                          alt: product.name,
-                          class: "product-img" %>
-          <% else %>
-            <%= image_tag "placeholder.png",
-                          alt: product.name,
-                          class: "product-img" %>
-          <% end %>
-          <h5><%= product.name %></h5>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="card h-100 shadow-lg border-0 product-card-modern text-center p-3 hover-shadow">
+            <% if product.image.attached? %>
+              <img src="<%= url_for(product.image) %>" alt="<%= product.name %>" class="product-img mb-3 rounded mx-auto d-block" style="max-width:120px; max-height:120px; object-fit:contain; background:#f8f9fa;" />
+            <% end %>
+            <h5 class="fw-bold mb-2"><%= product.name %></h5>
+            <% if product.description.present? %>
+              <p class="text-muted small mb-2"><%= truncate(product.description, length: 60) %></p>
+            <% end %>
+            <a href="/products/<%= product.id %>" class="btn btn-outline-primary btn-sm mt-auto">View Details</a>
+          </div>
         </div>
       <% end %>
     </div>
@@ -187,3 +208,21 @@
     dots[window.gallerySlideIndex - 1].className += " active";
   }
 </script>
+
+<style>
+.hover-shadow:hover {
+  box-shadow: 0 8px 32px rgba(13,110,253,0.13), 0 2px 8px rgba(0,0,0,0.06) !important;
+  transform: translateY(-2px) scale(1.03);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.feature-card-modern, .product-card-modern {
+  border-radius: 1.5rem;
+  background: #fff;
+  transition: box-shadow 0.2s, transform 0.2s;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+</style>

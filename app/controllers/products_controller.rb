@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class ProductsController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[index]
   before_action :set_product, only: %i[show edit update destroy]
+  before_action :authenticate_user!, except: [:index, :show]
 
   def index
     @products = Product.includes(:category).all
@@ -42,7 +42,7 @@ class ProductsController < ApplicationController
   private
 
   def set_product
-    @product = Product.find(params[:id])
+    @product = Product.friendly.find(params[:id])
   end
 
   def product_params

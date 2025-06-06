@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ContactsController < ApplicationController
-  skip_before_action :authenticate_user!
+  before_action :authenticate_user!, execpt: [:new, :create]
 
   def new
     @contact = Contact.new

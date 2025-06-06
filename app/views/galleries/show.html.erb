@@ -2,7 +2,7 @@
   <div class="gallery-header">
     <h1><%= @gallery.title %></h1>
     
-    <% if user_signed_in? %>
+    <% if defined?(user_signed_in?) && user_signed_in? %>
       <div class="gallery-actions">
         <%= link_to edit_gallery_path(@gallery), class: "btn-edit" do %>
           <i class="fas fa-edit"></i> Edit

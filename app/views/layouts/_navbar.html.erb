@@ -1,51 +1,24 @@
-<nav class="custom-navbar">
-  <div class="navbar-content">
-    <!-- Logo / Brand -->
-    <div class="navbar-left">
-      <%= link_to root_path, class: "navbar-brand" do %>
-        <span class="brand-italic">GC</span> <span class="brand-bold">PRECISION</span>
-      <% end %>
-    </div>
-
-    <!-- Hamburger toggle (visible on mobile) -->
-    <button class="navbar-toggler" type="button" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3 shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="/">
+      <img src="/assets/logo.png" alt="GC Precision" style="height:36px; width:auto; margin-right:10px;">
+      GC PRECISION
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-
-    <!-- Links -->
-    <div class="navbar-collapse">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <%= link_to "Home", root_path, class: "nav-link #{current_page?(root_path) ? 'active' : ''}" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "About Us", about_sections_path, class: "nav-link #{current_page?(about_sections_path) ? 'active' : ''}" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Our Products", products_path, class: "nav-link #{current_page?(products_path) ? 'active' : ''}" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Our Gallery", galleries_path, class: "nav-link #{current_page?(galleries_path) ? 'active' : ''}" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Contact Us", contact_path, class: "nav-link #{current_page?(contact_path) ? 'active' : ''}" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Category", categories_path, class: "nav-link #{current_page?(categories_path) ? 'active' : ''}" %>
-        </li>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-semibold">
+        <li class="nav-item"><a class="nav-link text-white" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/about">About</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/products">Products</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/services">Services</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/contact">Contact</a></li>
+        <!-- Add more links as needed -->
       </ul>
-
-      <% if user_signed_in? %>
-        <div class="nav-auth">
-          <%= button_to "Logout", destroy_user_session_path,
-                        method: :delete,
-                        class: "nav-auth-btn" %>
-        </div>
-      <% else %>
-        <div class="nav-auth">
-          <%= link_to "Login", new_user_session_path, class: "nav-auth-btn" %>
-        </div>
-      <% end %>
+      <form class="d-flex ms-lg-3 mt-3 mt-lg-0" role="search">
+        <input class="form-control rounded-pill px-4" type="search" placeholder="Search..." aria-label="Search">
+      </form>
     </div>
   </div>
 </nav>

@@ -29,7 +29,9 @@
                 <td><%= number_to_currency(product.price) %></td>
                 <td>
                   <%= link_to 'View', product_path(product), class: 'btn btn-sm btn-info' %>
-                  <%= link_to 'Edit', edit_product_path(product), class: 'btn btn-sm btn-warning' %>
+                  <% if defined?(user_signed_in?) && user_signed_in? %>
+                    <%= link_to 'Edit', edit_product_path(product), class: 'btn btn-sm btn-warning' %>
+                  <% end %>
                 </td>
               </tr>
             <% end %>
@@ -38,7 +40,9 @@
       </div>
     </div>
     <div class="card-footer">
-      <%= link_to 'Edit', edit_category_path(@category), class: 'btn btn-warning' %>
+      <% if defined?(user_signed_in?) && user_signed_in? %>
+        <%= link_to 'Edit', edit_category_path(@category), class: 'btn btn-warning' %>
+      <% end %>
       <%= link_to 'Back', categories_path, class: 'btn btn-secondary' %>
     </div>
   </div>

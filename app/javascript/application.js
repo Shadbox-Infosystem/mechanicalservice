@@ -2,3 +2,7 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 import "./navbar"
+
+// Bootstrap JavaScript
+import "bootstrap-sprockets"
+import "bootstrap"

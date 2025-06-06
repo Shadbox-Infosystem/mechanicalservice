@@ -1,60 +1,46 @@
 <%# app/views/devise/sessions/new.html.erb %>
 
 <!--
-  We’re wrapping everything in a “login-container” so we can center the card
+  We're wrapping everything in a "login-container" so we can center the card
   and give the page a dark background. 
 -->
 <div class="login-container">
   <!-- Centered card -->
-  <div class="login-card">
-    <!-- (Optional) Logo at the top -->
-    <div class="login-logo">
-      <!-- Replace with your own logo path or text -->
-      <h2>GC PRECISION</h2>
+  <div class="auth-card">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold mb-1" style="letter-spacing:2px;">MTS</h2>
+      <div class="mb-2 text-muted">Sign in to your account</div>
     </div>
 
-    <!-- Card Title -->
-    <h2 class="login-title">Sign in to your account</h2>
-
-    <!-- Devise form_for(resource) … -->
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "login-form" }) do |f| %>
-      <div class="form-group">
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="mb-3">
         <%= f.label :email, "Email", class: "form-label" %>
-        <%= f.email_field :email,
-              autofocus: true,
-              autocomplete: "email",
-              placeholder: "name@company.com",
-              class: "form-input" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "name@company.com", class: "form-control" %>
       </div>
 
-      <div class="form-group">
+      <div class="mb-3">
         <%= f.label :password, "Password", class: "form-label" %>
-        <%= f.password_field :password,
-              autocomplete: "current-password",
-              placeholder: "••••••••",
-              class: "form-input" %>
+        <%= f.password_field :password, autocomplete: "current-password", placeholder: "••••••••", class: "form-control" %>
       </div>
 
       <% if devise_mapping.rememberable? %>
-        <div class="form-group remember-me-group">
-          <label class="remember-me-label">
-            <%= f.check_box :remember_me, class: "remember-me-checkbox" %>
-            <span>Remember me</span>
-          </label>
-          <%= link_to "Forgot password?", new_password_path(resource_name), class: "forgot-password-link" %>
+        <div class="mb-3 d-flex justify-content-between align-items-center">
+          <div class="form-check">
+            <%= f.check_box :remember_me, class: "form-check-input" %>
+            <%= f.label :remember_me, "Remember me", class: "form-check-label" %>
+          </div>
+          <%= link_to "Forgot password?", new_password_path(resource_name), class: "small" %>
         </div>
       <% end %>
 
-      <div class="form-group">
-        <%= f.submit "Sign in", class: "form-button" %>
+      <div class="d-grid mb-3">
+        <%= f.submit "Sign in", class: "btn btn-primary btn-lg" %>
       </div>
     <% end %>
 
-    <div class="signup-link-container">
-      <p class="signup-text">
-        Don’t have an account yet?
-        <%= link_to "Sign up", new_registration_path(resource_name), class: "signup-link" %>
-      </p>
+    <div class="text-center mt-3">
+      <span class="text-muted">Don't have an account yet?</span>
+      <%= link_to "Sign up", new_registration_path(resource_name), class: "ms-1" %>
     </div>
   </div>
 </div>

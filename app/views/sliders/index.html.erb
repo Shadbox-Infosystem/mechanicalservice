@@ -1,24 +1,26 @@
+<p style="color: green"><%= notice %></p>
+
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="gallery-heading-gradient">Our Gallery</h1>
-    <% if defined?(user_signed_in?) && user_signed_in? %>
-      <%= link_to 'New Gallery', new_gallery_path, class: 'btn btn-primary px-5 py-2' %>
+    <h1 class="gallery-heading-gradient">Sliders</h1>
+    <% if user_signed_in? %>
+      <%= link_to 'New Slider', new_slider_path, class: 'btn btn-primary px-5 py-2' %>
     <% end %>
   </div>
 
   <div class="product-card-grid">
-    <% @galleries.each do |gallery| %>
+    <% @sliders.each do |slider| %>
       <div class="product-card">
         <div class="product-card-img-wrapper">
-          <% if gallery.images.attached? %>
-            <%= image_tag gallery.images.first.variant(resize_to_limit: [400, 300]), class: 'product-card-img', alt: gallery.title %>
+          <% if slider.image.attached? %>
+            <%= image_tag slider.image.variant(resize_to_limit: [400, 300]), class: 'product-card-img', alt: slider.title %>
           <% else %>
             <div class="product-card-img product-card-img-placeholder"></div>
           <% end %>
         </div>
         <div class="product-card-footer">
-          <span class="product-card-title"><%= gallery.title %></span>
-          <%= link_to '>', gallery_path(gallery), class: 'product-card-btn' %>
+          <span class="product-card-title"><%= slider.title %></span>
+          <%= link_to '>', slider_path(slider), class: 'product-card-btn' %>
         </div>
       </div>
     <% end %>

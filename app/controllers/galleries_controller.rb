@@ -2,7 +2,7 @@
 
 class GalleriesController < ApplicationController
   before_action :set_gallery, only: %i[show edit update destroy]
-  skip_before_action :authenticate_user!, only: %i[index show]
+  before_action :authenticate_user!, except: [:index, :show]
 
   def index
     @galleries = Gallery.all
@@ -42,7 +42,7 @@ class GalleriesController < ApplicationController
   private
 
   def set_gallery
-    @gallery = Gallery.find(params[:id])
+    @gallery = Gallery.friendly.find(params[:id])
   end
 
   def gallery_params
