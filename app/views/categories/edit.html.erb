@@ -1,0 +1,33 @@
+<%# app/views/categories/edit.html.erb %>
+
+<div class="category-form-container">
+  <h1>Edit Category</h1>
+
+  <%= form_with(model: @category, local: true, html: { class: "category-form" }) do |f| %>
+    <% if @category.errors.any? %>
+      <div class="error-messages">
+        <h2><%= pluralize(@category.errors.count, "error") %> prohibited this category from being saved:</h2>
+        <ul>
+          <% @category.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.label :name, class: "form-label" %>
+      <%= f.text_field :name, class: "form-input", placeholder: "Category name" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :description, class: "form-label" %>
+      <%= f.text_area :description, rows: 4, class: "form-input", placeholder: "Optional description" %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit "Update Category", class: "btn btn-primary" %>
+      <%= link_to "Back to Categories", categories_path, class: "btn btn-secondary" %>
+    </div>
+  <% end %>
+</div>

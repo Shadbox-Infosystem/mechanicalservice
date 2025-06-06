@@ -1,0 +1,109 @@
+/* ================================
+   app/assets/stylesheets/footer.css
+   Dark‐themed footer styled like your screenshot
+================================= */
+
+/* 1) VARIABLES FOR COLORS (optional) */
+:root {
+  --footer-bg: #0f172a;              /* Very dark/navy background */
+  --footer-text: #cbd5e1;            /* Light gray text */
+  --footer-link-hover: #ffffff;      /* White on hover */
+  --footer-divider: #374151;         /* Slightly lighter dark for the divider */
+  --footer-font: "Helvetica Neue", Arial, sans-serif;
+}
+
+/* 2) SITE FOOTER WRAPPER */
+.site-footer {
+  background-color: var(--footer-bg);
+  color: var(--footer-text);
+  font-family: var(--footer-font);
+  padding: 1.5rem 1rem 2rem;
+}
+
+/* 3) TOP PART (LOGO + NAV LINKS) */
+.footer-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 1rem;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-logo-img {
+  height: 32px;
+  width: auto;
+}
+
+.footer-brand {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--footer-text);
+  white-space: nowrap;
+}
+
+.footer-nav {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-nav li {
+  margin: 0;
+}
+
+.footer-link {
+  color: var(--footer-text);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+  color: var(--footer-link-hover);
+  text-decoration: underline;
+}
+
+/* 4) DIVIDER LINE */
+.footer-divider {
+  border: none;
+  border-top: 1px solid var(--footer-divider);
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+/* 5) BOTTOM PART (COPYRIGHT) */
+.footer-bottom {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.footer-copy {
+  font-size: 0.875rem;
+  color: var(--footer-text);
+  margin: 0;
+}
+
+/* 6) RESPONSIVE Tiny Adjustments */
+@media (max-width: 640px) {
+  .footer-top {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .footer-nav {
+    justify-content: center;
+    gap: 1rem;
+  }
+}

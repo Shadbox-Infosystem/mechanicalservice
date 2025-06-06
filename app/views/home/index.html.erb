@@ -45,10 +45,6 @@
             <%= image_tag category.image_url,
                           alt: category.name,
                           class: "feature-img" %>
-          <% else %>
-            <%= image_tag "placeholder.png",
-                          alt: category.name,
-                          class: "feature-img" %>
           <% end %>
           <h5><%= category.name %></h5>
         </div>
