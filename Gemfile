@@ -76,3 +76,4 @@ gem 'rubocop', '~> 1.76'
 gem 'bootstrap', '~> 5.3.0'
 gem 'friendly_id', '~> 5.4.0'
 gem 'paperclip', '~> 6.1'
+gem "airbrake", "~> 13.0"
