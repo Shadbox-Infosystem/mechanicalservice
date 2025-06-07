@@ -17,9 +17,10 @@ module Gcprecision
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
-        config.hosts << "172e-103-187-248-120.ngrok-free.app"
-    config.hosts << "172e-103-187-248-120.ngrok-free.app"
-
+  #      config.hosts << "172e-103-187-248-120.ngrok-free.app"
+ #   config.hosts << "172e-103-187-248-120.ngrok-free.app"
+config.hosts << "mechanicaltransmissionsolution.com"
+#config.hosts << "198.54.121.44:3000"
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
