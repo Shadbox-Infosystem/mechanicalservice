@@ -1,5 +1,5 @@
 <%# app/views/products/_form.html.erb %>
-<%= form_with(model: product, local: true, data: { turbo: false }) do |form| %>
+<%= form_with(model: product, local: true, data: { turbo: false }, html: { multipart: true }) do |form| %>
   <% if product.errors.any? %>
     <div class="alert alert-danger">
       <h2><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h2>
@@ -27,7 +27,12 @@
 
   <div class="form-group">
     <%= form.label :image %>
-    <%= form.file_field :image, class: 'form-control', accept: 'image/*' %>
+    <%= form.file_field :image, class: 'form-control' %>
+    <% if product.image.exists? %>
+      <div class="mt-2">
+        <%= image_tag product.image.url(:medium), class: 'img-thumbnail', style: 'max-width: 200px;' %>
+      </div>
+    <% end %>
   </div>
 
 

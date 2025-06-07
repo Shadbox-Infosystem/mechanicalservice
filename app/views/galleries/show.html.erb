@@ -2,8 +2,8 @@
   <h1 class="text-center mb-5 gallery-heading-gradient" style="font-size: 2.5rem; font-weight: 800; letter-spacing: 1px;"> <%= @gallery.title %> </h1>
   <div class="row justify-content-center align-items-start mb-4">
     <div class="col-md-5 mb-4 mb-md-0 d-flex justify-content-center">
-      <% if @gallery.images.attached? && @gallery.images.first %>
-        <%= image_tag @gallery.images.first.variant(resize_to_limit: [500, 350]), class: 'img-fluid rounded shadow', alt: @gallery.title, style: 'max-height:350px; object-fit:contain;' %>
+      <% if @gallery.gallery_images.any? %>
+        <%= image_tag @gallery.gallery_images.first.image.url(:large), class: 'img-fluid rounded shadow', alt: @gallery.title, style: 'max-height:350px; object-fit:contain;' if @gallery.gallery_images.first.image.exists? %>
       <% else %>
         <div class="d-flex align-items-center justify-content-center bg-light rounded shadow" style="width:100%; min-height: 250px; max-width: 500px;">
           <span class="text-muted">No Image Available</span>
@@ -41,12 +41,10 @@
   </div>
   <h3 class="mt-5 mb-3 gallery-heading-gradient" style="font-size: 1.5rem; font-weight: 700; letter-spacing: 1px;">Gallery Images</h3>
   <div class="gallery-images-grid">
-    <% if @gallery.images.attached? %>
-      <% @gallery.images.each do |image| %>
+    <% if @gallery.gallery_images.any? %>
+      <% @gallery.gallery_images.each do |gallery_image| %>
         <div class="gallery-image">
-          <%= image_tag image.variant(resize_to_limit: [800, 600]), 
-                      alt: @gallery.title,
-                      loading: "lazy" %>
+          <%= image_tag gallery_image.image.url(:large), alt: @gallery.title, loading: "lazy" if gallery_image.image.exists? %>
         </div>
       <% end %>
     <% else %>

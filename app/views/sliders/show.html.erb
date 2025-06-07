@@ -3,9 +3,9 @@
 <div class="container mt-5">
   <div class="d-flex justify-content-center">
     <div class="product-card" style="max-width: 500px; width: 100%;">
-      <% if @slider.image.attached? %>
+      <% if @slider.image.exists? %>
         <div class="product-card-img-wrapper">
-          <%= image_tag @slider.image.variant(resize_to_limit: [500, 300]), class: 'product-card-img', alt: @slider.title %>
+          <%= image_tag @slider.image.url(:large), class: 'product-card-img', alt: @slider.title %>
         </div>
       <% end %>
       <div class="p-4">

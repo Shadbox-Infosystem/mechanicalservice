@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
 class TeamMember < ApplicationRecord
-  has_one_attached :photo
+  has_attached_file :photo, styles: { medium: "150x150>", thumb: "50x50>" }
+  validates_attachment_content_type :photo, content_type: /\Aimage\/.*\z/
   validates :name, :role, presence: true
-  validates :photo, content_type: ['image/png', 'image/jpeg', 'image/gif'], size: { less_than: 5.megabytes }, if: lambda {
-    photo.attached?
-  }
   default_scope { order(position: :asc) }
 
   def photo_or_url
-    if photo.attached?
+    if photo.exists?
       photo
     elsif photo_url.present?
       photo_url

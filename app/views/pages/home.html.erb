@@ -3,8 +3,8 @@
   <div class="swiper-wrapper">
     <% @sliders.each do |slider| %>
       <div class="swiper-slide position-relative" style="min-height: 520px; display: flex; align-items: center; justify-content: center;">
-        <% if slider.image.attached? %>
-          <%= image_tag slider.image, style: 'object-fit: cover; width: 100vw; height: 520px; position: absolute; left: 0; top: 0; z-index: 1;', alt: slider.title %>
+        <% if slider.image.exists? %>
+          <%= image_tag slider.image.url(:large), style: 'object-fit: cover; width: 100vw; height: 520px; position: absolute; left: 0; top: 0; z-index: 1;', alt: slider.title %>
         <% else %>
           <div style="background: linear-gradient(90deg, #1e3c72 0%, #2a5298 50%, #6a11cb 100%); width: 100vw; height: 520px; position: absolute; left: 0; top: 0; z-index: 1;"></div>
         <% end %>
@@ -31,24 +31,22 @@
 <div class="section-divider"></div>
 
 <!-- Products Section -->
-<section class="products-section py-5" style="background: #f6f8fa;">
+<section class="py-5">
   <div class="container">
-    <h2 class="text-center mb-4" style="color: #1e3c72; font-weight: 800; letter-spacing: 1px;">Our Products</h2>
+    <h2 class="fw-bold text-center mb-5" style="font-size:2.2rem; letter-spacing:1px;">Our Products</h2>
     <div class="swiper products-slider">
       <div class="swiper-wrapper">
-        <% @products&.each do |product| %>
+        <% @products.each do |product| %>
           <div class="swiper-slide">
-            <div class="card h-100 product-card shadow border-0 rounded-4">
-              <% if product.image.attached? %>
-                <%= image_tag product.image, class: "card-img-top", alt: product.name %>
-              <% else %>
-                <div class="card-img-placeholder">No Image</div>
+            <div class="card h-100 shadow-lg border-0 product-card-modern text-center p-3 hover-shadow">
+              <% if product.image.exists? %>
+                <img src="<%= product.image.url(:medium) %>" alt="<%= product.name %>" class="product-img mb-3 rounded mx-auto d-block" style="max-width:120px; max-height:120px; object-fit:contain; background:#f8f9fa;" />
               <% end %>
-              <div class="card-body">
-                <h5 class="card-title" style="color: #1e3c72; font-weight: 700; letter-spacing: 0.5px;"><%= product.name %></h5>
-                <p class="card-text"><%= truncate(product.description.to_plain_text, length: 100) %></p>
-                <%= link_to "Learn More", product_path(product), class: "btn btn-primary w-100" %>
-              </div>
+              <h5 class="fw-bold mb-2"><%= product.name %></h5>
+              <% if product.description.present? %>
+                <p class="text-muted small mb-2"><%= truncate(product.description.to_plain_text, length: 60) %></p>
+              <% end %>
+              <a href="<%= product_path(product) %>" class="btn btn-outline-primary btn-sm mt-auto">View Details</a>
             </div>
           </div>
         <% end %>
@@ -56,9 +54,6 @@
       <div class="swiper-pagination"></div>
       <div class="swiper-button-next"></div>
       <div class="swiper-button-prev"></div>
-    </div>
-    <div class="text-center mt-4">
-      <%= link_to "View All Products", products_path, class: "btn btn-outline-primary px-4 py-2" %>
     </div>
   </div>
 </section>
@@ -72,13 +67,13 @@
     <div class="swiper gallery-slider">
       <div class="swiper-wrapper">
         <% @galleries&.each do |gallery| %>
-          <% if gallery.images.attached? %>
-            <% gallery.images.each do |image| %>
+          <% if gallery.gallery_images.any? %>
+            <% gallery.gallery_images.each do |gallery_image| %>
               <div class="swiper-slide">
                 <%= link_to gallery_path(gallery), style: 'text-decoration: none;' do %>
                   <div class="gallery-card shadow rounded-4 overflow-hidden">
-                    <% if image.present? %>
-                      <%= image_tag image.variant(resize_to_limit: [800, 600]), class: "img-fluid rounded", alt: gallery.title || "Gallery Image" %>
+                    <% if gallery_image.image.exists? %>
+                      <%= image_tag gallery_image.image.url(:large), class: "img-fluid rounded", alt: gallery.title || "Gallery Image" %>
                     <% else %>
                       <div class="gallery-img-placeholder">No Image</div>
                     <% end %>

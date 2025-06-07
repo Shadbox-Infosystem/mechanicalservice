@@ -108,13 +108,11 @@
 
     <!-- 4.1: Slideshow container -->
     <div class="gallery-slideshow-container">
-      <% @galleries.each do |gallery| %>
-        <% gallery.images.each do |img| %>
-          <div class="gallery-slide">
-            <%= image_tag img.variant(resize_to_limit: [1200, 800]),
-                          alt: "Gallery Image",
-                          class: "gallery-slide-img" %>
-          </div>
+      <% @galleries&.each do |gallery| %>
+        <% if gallery.gallery_images.any? %>
+          <% gallery.gallery_images.each do |gallery_image| %>
+            <%= image_tag gallery_image.image.url(:medium), alt: gallery.title, class: 'img-fluid' if gallery_image.image.exists? %>
+          <% end %>
         <% end %>
       <% end %>
 

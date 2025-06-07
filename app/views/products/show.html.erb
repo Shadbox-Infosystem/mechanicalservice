@@ -3,8 +3,8 @@
   <h1 class="text-center mb-5 gallery-heading-gradient" style="font-size: 2.5rem; font-weight: 800; letter-spacing: 1px;"> <%= @product.name %> </h1>
   <div class="row justify-content-center align-items-start">
     <div class="col-md-5 mb-4 mb-md-0 d-flex justify-content-center">
-      <% if @product.image.attached? %>
-        <%= image_tag @product.image.variant(resize_to_limit: [500, 350]), class: 'img-fluid rounded shadow', alt: @product.name, style: 'max-height:350px; object-fit:contain;' %>
+      <% if @product.image.exists? %>
+        <%= image_tag @product.image.url(:medium), class: 'img-fluid rounded shadow', alt: @product.name, style: 'max-height:350px; object-fit:contain;' %>
       <% else %>
         <div class="d-flex align-items-center justify-content-center bg-light rounded shadow" style="width:100%; min-height: 250px; max-width: 500px;">
           <span class="text-muted">No Image Available</span>

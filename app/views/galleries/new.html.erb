@@ -1,21 +1,6 @@
 <h1>Create a New Gallery</h1>
 
-<%= form_with(model: @gallery, local: true, html: { multipart: true }) do |f| %>
-  <div class="field">
-    <%= f.label :title, "Gallery Title (optional)" %><br>
-    <%= f.text_field :title, class: "form-control" %>
-  </div>
-
-  <div class="field mt-3">
-    <%= f.label :images, "Choose images (you can select multiple)" %><br>
-    <%= f.file_field :images, multiple: true, accept: 'image/png,image/jpg,image/jpeg,image/gif', class: "form-control" %>
-  </div>
-
-  <div class="actions mt-3">
-    <%= f.submit "Upload", class: "btn btn-primary" %>
-    <%= link_to "Back to Gallery List", galleries_path, class: "btn btn-link" %>
-  </div>
-<% end %>
+<%= render 'form', gallery: @gallery %>
 
 <% if @gallery.errors.any? %>
   <div class="alert alert-danger mt-3">

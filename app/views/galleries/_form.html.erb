@@ -22,20 +22,23 @@
   </div>
 
   <div class="form-group">
-    <%= form.label :images %>
-    <div class="image-upload-container">
-      <%= form.file_field :images, 
-                         multiple: true, 
-                         accept: 'image/*',
-                         class: "form-control",
-                         data: { 
-                           controller: "image-preview",
-                           action: "change->image-preview#preview"
-                         } %>
-      <div class="image-preview-grid" data-image-preview-target="previewContainer"></div>
+    <%= form.label :images, "Gallery Images" %>
+    <div id="gallery-images-fields">
+      <%= form.fields_for :gallery_images do |gi_form| %>
+        <div class="nested-fields mb-2">
+          <% if gi_form.object.persisted? && gi_form.object.image.exists? %>
+            <div class="mb-2">
+              <%= image_tag gi_form.object.image.url(:thumb), class: "img-thumbnail", style: "max-width: 120px; max-height: 120px;" %>
+              <label><%= gi_form.check_box :_destroy %> Remove</label>
+            </div>
+          <% end %>
+          <%= gi_form.file_field :image, accept: 'image/*', class: "form-control mb-2" %>
+        </div>
+      <% end %>
     </div>
+    <button type="button" class="btn btn-outline-primary btn-sm mt-2" id="add-gallery-image">Add Image</button>
     <small class="form-text text-muted">
-      You can select multiple images. Supported formats: JPG, PNG, GIF. Max size: 5MB per image.
+      You can add multiple images. Supported formats: JPG, PNG, GIF. Max size: 5MB per image.
     </small>
   </div>
 
@@ -164,46 +167,20 @@
   }
 </style>
 
-<%= javascript_tag do %>
+<script>
   document.addEventListener('DOMContentLoaded', function() {
-    const imageInput = document.querySelector('input[type="file"]');
-    const previewContainer = document.querySelector('[data-image-preview-target="previewContainer"]');
-
-    imageInput.addEventListener('change', function(e) {
-      previewContainer.innerHTML = '';
-      
-      Array.from(e.target.files).forEach((file, index) => {
-        if (file.type.startsWith('image/')) {
-          const reader = new FileReader();
-          
-          reader.onload = function(e) {
-            const preview = document.createElement('div');
-            preview.className = 'image-preview';
-            
-            const img = document.createElement('img');
-            img.src = e.target.result;
-            
-            const removeButton = document.createElement('button');
-            removeButton.className = 'remove-image';
-            removeButton.innerHTML = '×';
-            removeButton.onclick = function() {
-              preview.remove();
-              // Create a new FileList without the removed file
-              const dt = new DataTransfer();
-              Array.from(imageInput.files).forEach((f, i) => {
-                if (i !== index) dt.items.add(f);
-              });
-              imageInput.files = dt.files;
-            };
-            
-            preview.appendChild(img);
-            preview.appendChild(removeButton);
-            previewContainer.appendChild(preview);
-          };
-          
-          reader.readAsDataURL(file);
-        }
-      });
+    var addButton = document.getElementById('add-gallery-image');
+    var container = document.getElementById('gallery-images-fields');
+    var index = <%= gallery.gallery_images.size %>;
+    addButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      var newField = document.createElement('div');
+      newField.className = 'nested-fields mb-2';
+      newField.innerHTML = `
+        <input class="form-control mb-2" type="file" name="gallery[gallery_images_attributes][${index}][image]" accept="image/*">
+      `;
+      container.appendChild(newField);
+      index++;
     });
   });
-<% end %> 
+</script> 

@@ -22,15 +22,15 @@
         <!-- Section‐specific edit/delete buttons -->
       <% end %>
 
-      <% if section.image.attached? %>
+      <% if section.image.exists? %>
         <div class="section-image mb-3">
-          <%= image_tag url_for(section.image.variant(resize_to_limit: [800, 600])),
+          <%= image_tag section.image.url(:large),
                         alt: section.title,
                         class: "img-fluid rounded" %>
         </div>
       <% end %>
 
-      <div class="section-text <%= "with-image" if section.image.attached? %>">
+      <div class="section-text <%= "with-image" if section.image.exists? %>">
         <h2><%= section.title %></h2>
         <div class="content">
           <%= section.content.html_safe %>
@@ -50,8 +50,8 @@
 
           <!-- Image वाला हिस्सा -->
           <div class="team-photo mb-3 text-center">
-            <% if member.photo.attached? %>
-              <%= image_tag member.photo.variant(resize_to_limit: [150, 150]),
+            <% if member.photo.exists? %>
+              <%= image_tag member.photo.url(:medium),
                             alt: member.name,
                             class: "img-fluid rounded-circle" %>
             <% elsif member.photo_url.present? && member.photo_url =~ /\Ahttps?:\/\//i %>

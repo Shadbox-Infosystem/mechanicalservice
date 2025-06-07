@@ -10,8 +10,8 @@
     <% @products.each do |product| %>
       <div class="product-card">
         <div class="product-card-img-wrapper">
-          <% if product.image.attached? %>
-            <%= image_tag product.image, class: 'product-card-img' %>
+          <% if product.image.exists? %>
+            <%= image_tag product.image.url(:thumb), class: 'product-card-img' %>
           <% else %>
             <div class="product-card-img product-card-img-placeholder"></div>
           <% end %>
